@@ -1,1 +1,486 @@
-<html>This is my website</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jaya Tiwari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-light: #020617;
+      --accent: #22c55e;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --card: #020617;
+      --border: #1f2937;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    header {
+      padding: 24px 20px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, #020617, #030712);
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+      margin-bottom: 20px;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #4ade80, #22c55e, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #022c22;
+      font-size: 22px;
+    }
+    .title-block h1 {
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .title-block p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .headline {
+      font-size: 15px;
+      margin-top: 6px;
+      color: var(--muted);
+    }
+    .headline span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .nav {
+      display: flex;
+      gap: 6px;
+      margin-top: 16px;
+      background: #020617;
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+    .nav button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .nav button span.icon {
+      font-size: 14px;
+    }
+    .nav button.active {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 500;
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.6);
+    }
+    .nav button:not(.active):hover {
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+    }
+    .nav button:active {
+      transform: translateY(1px);
+    }
+
+    main {
+      margin-top: 12px;
+    }
+    .tab-panel {
+      display: none;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px 18px 18px;
+      box-shadow: 0 26px 80px rgba(15, 23, 42, 0.8);
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    .tab-panel h2 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .tab-panel .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid #0f172a;
+      background: #020617;
+      color: var(--muted);
+    }
+    .pill.highlight {
+      border-color: rgba(34, 197, 94, 0.6);
+      color: var(--accent);
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style: none;
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+    ul li {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+    ul li strong {
+      color: #e5e7eb;
+    }
+
+    .card-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 10px 10px 9px;
+      background: radial-gradient(circle at top, #020617, #020617);
+      cursor: default;
+      transition: border 0.18s, transform 0.12s, box-shadow 0.18s;
+    }
+    .card:hover {
+      border-color: rgba(148, 163, 184, 0.65);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 38px rgba(15, 23, 42, 0.9);
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .card-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 13px;
+      margin-bottom: 0;
+      color: #e5e7eb;
+    }
+    .badge-row {
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #1f2937;
+      color: var(--muted);
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 14px;
+      opacity: 0.7;
+    }
+
+    @media (min-width: 720px) {
+      .header-top {
+        gap: 18px;
+      }
+      .avatar {
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+      }
+      .title-block h1 {
+        font-size: 24px;
+      }
+      .headline {
+        font-size: 15px;
+      }
+      .card-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="header-top">
+        <div class="avatar">
+          <!-- Put your initials here -->
+          YN
+        </div>
+        <div class="title-block">
+          <h1>Jay Tiwari</h1>
+          <p>Engineering Manager | Interviewing Coach</p>
+        </div>
+      </div>
+      <p class="headline">
+        I help <span>engineers, manaager or technical program managers</span> ship faster, grow smarter, and avoid the usual product and marketing mistakes.
+      </p>
+
+      <nav class="nav" aria-label="Main tabs">
+        <button class="active" data-tab="about">
+          <span class="icon">👤</span>
+          <span>About me</span>
+        </button>
+        <button data-tab="blogs">
+          <span class="icon">✍️</span>
+          <span>Blogs</span>
+        </button>
+        <button data-tab="consultation">
+          <span class="icon">📞</span>
+          <span>Consultation</span>
+        </button>
+        <button data-tab="recommendations">
+          <span class="icon">⭐</span>
+          <span>My recommendations</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ABOUT ME TAB -->
+      <section id="tab-about" class="tab-panel active">
+        <h2>About me</h2>
+        <p class="subtitle">Who I am and what I’m currently working on.</p>
+
+        <div class="pill-row">
+          <span class="pill highlight">Open to collaborations</span>
+          <span class="pill">Remote friendly</span>
+          <span class="pill">Building in public</span>
+        </div>
+
+        <p>
+          I’m Your Name, a [role: e.g. software engineer / founder / content creator] focused on shipping small,
+          useful products on the internet. I like combining product, marketing, and engineering to move quickly without breaking everything.
+        </p>
+        <p>
+          Right now I’m working on [your main project], consulting a few teams on [topic], and
+          writing about what I learn along the way.
+        </p>
+
+        <ul>
+          <li><strong>Location:</strong> Your City (remote)</li>
+          <li><strong>Currently:</strong> Building [project], taking on 1–2 new clients</li>
+          <li><strong>Contact:</strong> your@email.com</li>
+        </ul>
+      </section>
+
+      <!-- BLOGS TAB -->
+      <section id="tab-blogs" class="tab-panel">
+        <h2>Blogs</h2>
+        <p class="subtitle">A few recent posts. Link these to your real blog or newsletter.</p>
+
+        <div class="card-list">
+          <article class="card">
+            <div class="card-title">How I plan a tiny SaaS in a weekend</div>
+            <div class="card-meta">Strategy · 7 min read</div>
+            <p>
+              A simple framework I use to validate ideas quickly, without overthinking positioning, pricing, or tech stack.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">What early users actually care about</div>
+            <div class="card-meta">Growth · 5 min read</div>
+            <p>
+              Why talking to five real users beats any analytics dashboard, and how to run those conversations.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">My minimalist tech stack for solo projects</div>
+            <div class="card-meta">Dev · 6 min read</div>
+            <p>
+              The tools I use to ship quickly and keep maintenance low as a solo builder.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Writing landing pages that don’t feel fake</div>
+            <div class="card-meta">Copy · 4 min read</div>
+            <p>
+              Practical tips for talking like a human while still converting visitors into paying customers.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONSULTATION TAB -->
+      <section id="tab-consultation" class="tab-panel">
+        <h2>Consultation</h2>
+        <p class="subtitle">How we can work together 1:1.</p>
+
+        <p>
+          I work with founders, indie hackers, and small teams on strategy, positioning, and simple launch plans.
+        </p>
+
+        <div class="card-list">
+          <div class="card">
+            <div class="card-title">Clarity call (30 minutes)</div>
+            <div class="card-meta">For: idea feedback, quick questions, direction.</div>
+            <p>
+              We jump on a call, go through your current situation, and leave with 1–3 concrete next steps.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Product & landing page review</div>
+            <div class="card-meta">For: early-stage products that need honest feedback.</div>
+            <p>
+              You send your product and landing page, I record or walk you through a detailed teardown and improvements.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">1-month async support</div>
+            <div class="card-meta">For: builders who want a partner-in-crime.</div>
+            <p>
+              We work together through chat and Looms. You ship, I give feedback on strategy, copy, and priorities.
+            </p>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge">Limited spots each month</span>
+          <span class="badge">Custom packages available</span>
+        </div>
+
+        <p style="margin-top: 10px;">
+          Interested? Email me at <a href="mailto:your@email.com">your@email.com</a>
+          with a short description of your project and what you need help with.
+        </p>
+      </section>
+
+      <!-- RECOMMENDATIONS TAB -->
+      <section id="tab-recommendations" class="tab-panel">
+        <h2>My recommendations</h2>
+        <p class="subtitle">Tools, books, and creators I keep coming back to.</p>
+
+        <div class="card-list">
+          <div class="card">
+            <div class="card-title">Tools</div>
+            <div class="card-meta">Things I actually use to ship.</div>
+            <p>
+              Your favourite tools here, e.g. a note-taking app, analytics, email, automation, and hosting.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Books & articles</div>
+            <div class="card-meta">Stuff that changed how I think.</div>
+            <p>
+              Short list of books, essays, and blog posts that shaped your approach to building and learning.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">People</div>
+            <div class="card-meta">Creators I learn from.</div>
+            <p>
+              A few names with a one-line reason to follow them, plus links to their sites or newsletters.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Starter stack for beginners</div>
+            <div class="card-meta">If you’re just getting started.</div>
+            <p>
+              A simple, opinionated starter pack: one hosting provider, one analytics tool, one email tool, one place to write.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Your Name · All rights reserved
+    </footer>
+  </div>
+
+  <script>
+    // Tab logic
+    const buttons = document.querySelectorAll(".nav button");
+    const panels = {
+      about: document.getElementById("tab-about"),
+      blogs: document.getElementById("tab-blogs"),
+      consultation: document.getElementById("tab-consultation"),
+      recommendations: document.getElementById("tab-recommendations")
+    };
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tab = btn.dataset.tab;
+        // update active button
+        buttons.forEach(b => b.classList.toggle("active", b === btn));
+        // update panels
+        Object.entries(panels).forEach(([name, el]) => {
+          el.classList.toggle("active", name === tab);
+        });
+      });
+    });
+
+    // Current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
