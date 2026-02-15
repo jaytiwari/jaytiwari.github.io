@@ -1,26 +1,612 @@
-<!doctype html>
+<html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+  <meta charset="UTF-8" />
+  <title>Jay Tiwari | Mentorship & Blogs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Jay Tiwari - System design, FAANG interview prep, resume review, and career mentorship." />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --border: #1f2937;
+      --accent: #22c55e;
+      --accent-soft: #bbf7d0;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 55%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    header {
+      padding: 20px 18px 18px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: radial-gradient(circle at top left, #0b1120, #020617);
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+      margin-bottom: 18px;
+    }
+
+    .hero-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 26px;
+      color: #022c22;
+      border: 2px solid rgba(34, 197, 94, 0.7);
+    }
+
+    .hero-text h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-text p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .hero-sub span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      font-size: 12px;
+    }
+
+    .stat-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    .stat-pill strong {
+      color: var(--accent);
+      font-weight: 500;
+      margin-right: 4px;
+    }
+
+    nav.tabs {
+      margin-top: 16px;
+      display: flex;
+      gap: 6px;
+      background: #020617;
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    nav.tabs button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.18s, color 0.18s, transform 0.1s;
+    }
+
+    nav.tabs button span.icon {
+      font-size: 14px;
+    }
+
+    nav.tabs button.active {
+      background: radial-gradient(circle at top left, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 500;
+      box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.7);
+    }
+
+    nav.tabs button:not(.active):hover {
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+    }
+
+    main {
+      margin-top: 14px;
+    }
+
+    .tab-panel {
+      display: none;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px 18px 18px;
+      box-shadow: 0 26px 80px rgba(15, 23, 42, 0.9);
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .tab-panel h2 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .tab-panel .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 8px 0 4px;
+      padding: 0;
+    }
+
+    ul li {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    ul li strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 14px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: var(--muted);
+    }
+
+    .pill.highlight {
+      border-color: rgba(34, 197, 94, 0.7);
+      color: var(--accent);
+    }
+
+    .card-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .card {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 11px 10px;
+      background: radial-gradient(circle at top, #020617, #020617);
+      transition: border 0.18s, transform 0.1s, box-shadow 0.18s;
+    }
+
+    .card:hover {
+      border-color: rgba(148, 163, 184, 0.7);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.95);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .card-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--accent-soft);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    @media (min-width: 720px) {
+      .hero-top {
+        gap: 18px;
+      }
+
+      .hero-text h1 {
+        font-size: 26px;
+      }
+
+      .card-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 18px 14px 14px;
+      }
+
+      .tab-panel {
+        padding: 18px 14px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-top">
+        <div class="avatar">JT</div>
+        <div class="hero-text">
+          <h1>Jay Tiwari</h1>
+          <p>Senior Software Engineer • System Design & FAANG Interview Mentor</p>
+        </div>
+      </div>
+
+      <p class="hero-sub">
+        I help software engineers **crack system design and FAANG-style interviews** with clear frameworks,
+        honest feedback, and real-world examples.
+      </p>
+
+      <div class="hero-stats">
+        <span class="stat-pill"><strong>4.9/5</strong> rating</span>
+        <span class="stat-pill"><strong>70+</strong> testimonials</span>
+        <span class="stat-pill"><strong>200+</strong> 1:1 sessions</span>
+      </div>
+
+      <nav class="tabs" aria-label="Main sections">
+        <button class="active" data-tab="about">
+          <span class="icon">👤</span>
+          <span>About me</span>
+        </button>
+        <button data-tab="blogs">
+          <span class="icon">✍️</span>
+          <span>Blogs</span>
+        </button>
+        <button data-tab="mentorship">
+          <span class="icon">🎯</span>
+          <span>Mentorship</span>
+        </button>
+        <button data-tab="references">
+          <span class="icon">📚</span>
+          <span>References</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ABOUT ME -->
+      <section id="tab-about" class="tab-panel active">
+        <h2>About me</h2>
+        <p class="subtitle">
+          A bit about who I am, what I do, and how I like to help.
+        </p>
+
+        <div class="pill-row">
+          <span class="pill highlight">System design interviews</span>
+          <span class="pill">FAANG-style coding & behavioral</span>
+          <span class="pill">Resume & career strategy</span>
+        </div>
+
+        <p>
+          I’m a software engineer who has spent years building and scaling backend systems, taking products
+          from idea to production, and interviewing candidates across levels. I enjoy turning messy, vague
+          problems into simple, structured plans that actually work.
+        </p>
+
+        <p>
+          On the mentorship side, I work with engineers who want to break into top tech companies, level up
+          their system design thinking, or get unstuck in their careers. Sessions are direct, friendly, and
+          focused on clear next steps rather than generic advice.
+        </p>
+
+        <ul>
+          <li><strong>Who I work best with:</strong> SDEs preparing for FAANG, system design, or senior-level interviews.</li>
+          <li><strong>What you can expect:</strong> honest feedback, practical examples, and a concrete action plan.</li>
+          <li><strong>Format:</strong> online 1:1 video calls and async support where needed.</li>
+        </ul>
+      </section>
+
+      <!-- BLOGS -->
+      <section id="tab-blogs" class="tab-panel">
+        <h2>Blogs</h2>
+        <p class="subtitle">
+          Sample topics I write and speak about. Link these to your actual posts later.
+        </p>
+
+        <div class="card-list">
+          <article class="card">
+            <div class="card-title">How to think in system design interviews</div>
+            <div class="card-meta">System design • 8 min read</div>
+            <p>
+              A step-by-step way to approach any system design problem, from clarifying requirements to trade‑offs.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Fixing the most common FAANG interview mistakes</div>
+            <div class="card-meta">Interview prep • 7 min read</div>
+            <p>
+              The patterns I see repeatedly in mock interviews and how to avoid them in your own prep.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Designing a scalable notifications system</div>
+            <div class="card-meta">Architecture • 9 min read</div>
+            <p>
+              Walking through a real-world style system design question, including trade‑offs and back‑of‑the‑envelope math.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Turning your resume into a signal, not noise</div>
+            <div class="card-meta">Career • 6 min read</div>
+            <p>
+              How to present your experience so hiring managers immediately understand your impact.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- MENTORSHIP -->
+      <section id="tab-mentorship" class="tab-panel">
+        <h2>Mentorship</h2>
+        <p class="subtitle">
+          1:1 sessions inspired by what works best for candidates I’ve mentored so far.
+        </p>
+
+        <div class="pill-row">
+          <span class="pill highlight">System design mock</span>
+          <span class="pill">Resume review</span>
+          <span class="pill">Interview readiness</span>
+          <span class="pill">Career guidance</span>
+        </div>
+
+        <div class="card-list">
+          <article class="card">
+            <div class="card-title">System design mock interview</div>
+            <div class="card-meta">60 minutes • video call</div>
+            <p>
+              We pick a real FAANG‑style system design question, go through it end‑to‑end, and then spend
+              time on targeted feedback: structure, depth, trade‑offs, and communication.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Senior / Mid-level SDE</span>
+              <span class="tag">FAANG / Tier‑1 product companies</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Resume review</div>
+            <div class="card-meta">30 minutes • async or call</div>
+            <p>
+              We go through your resume line by line to highlight impact, reduce fluff, and align it with the
+              roles and companies you’re targeting.
+            </p>
+            <div class="tag-row">
+              <span class="tag">ATS-friendly</span>
+              <span class="tag">Outcome focused</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Interview readiness & prep plan</div>
+            <div class="card-meta">45 minutes • video call</div>
+            <p>
+              We map your current level, upcoming timelines, and weak areas, then create a focused plan across
+              DSA, system design, and behavioral interviews.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Custom roadmap</span>
+              <span class="tag">Accountability</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Ask me anything (AMA)</div>
+            <div class="card-meta">20 minutes • flexible</div>
+            <p>
+              Use this for quick decisions: offer choices, career moves, switching stacks, or how to approach
+              a specific interview or opportunity.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Fast clarity</span>
+              <span class="tag">No fluff</span>
+            </div>
+          </article>
+        </div>
+
+        <p style="margin-top: 12px;">
+          To book a session, drop me a note at
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+          with a short summary of your background and what you want to focus on.
+        </p>
+      </section>
+
+      <!-- REFERENCES -->
+      <section id="tab-references" class="tab-panel">
+        <h2>References</h2>
+        <p class="subtitle">
+          Books, tools, and resources I often recommend to candidates and mentees.
+        </p>
+
+        <div class="card-list">
+          <article class="card">
+            <div class="card-title">System design & architecture</div>
+            <div class="card-meta">Books & resources</div>
+            <p>
+              Classic system design books, curated articles, and question banks that help you build strong intuition,
+              not just memorise templates.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Scalability</span>
+              <span class="tag">Distributed systems</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">DSA & coding interviews</div>
+            <div class="card-meta">Practice platforms</div>
+            <p>
+              A short list of platforms and problem sets I recommend for targeted practice rather than endless grinding.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Patterns</span>
+              <span class="tag">Focused lists</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Career & communication</div>
+            <div class="card-meta">Books & talks</div>
+            <p>
+              Resources that improve how you communicate your work, negotiate offers, and make better long‑term career decisions.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Storytelling</span>
+              <span class="tag">Negotiation</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-title">Tools I like</div>
+            <div class="card-meta">Everyday stack</div>
+            <p>
+              A small collection of tools for notes, diagrams, and tracking interview prep that keeps things simple and effective.
+            </p>
+            <div class="tag-row">
+              <span class="tag">Notes</span>
+              <span class="tag">Diagrams</span>
+              <span class="tag">Planning</span>
+            </div>
+          </article>
+        </div>
+
+        <p style="margin-top: 12px;">
+          I’ll keep this section updated as I discover new resources that are genuinely helpful, not just popular.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Jay Tiwari · All rights reserved
+    </footer>
+  </div>
+
+  <script>
+    // Tabs logic
+    const tabButtons = document.querySelectorAll("nav.tabs button");
+    const panels = {
+      about: document.getElementById("tab-about"),
+      blogs: document.getElementById("tab-blogs"),
+      mentorship: document.getElementById("tab-mentorship"),
+      references: document.getElementById("tab-references")
+    };
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tab = btn.dataset.tab;
+        tabButtons.forEach((b) => b.classList.toggle("active", b === btn));
+        Object.entries(panels).forEach(([name, el]) => {
+          el.classList.toggle("active", name === tab);
+        });
+      });
+    });
+
+    // Current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
