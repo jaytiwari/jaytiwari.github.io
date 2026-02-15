@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Jay Tiwari | Mentorship & Blogs</title>
+  <title>Jay Tiwari</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Jay Tiwari - System design, FAANG interview prep, resume review, and career mentorship." />
 
@@ -101,6 +101,19 @@
       background: rgba(15, 23, 42, 0.9);
       color: var(--muted);
     }
+
+    .stat-link {
+      text-decoration: none;
+    color: inherit;
+    }
+
+    .stat-link:hover .stat-pill {
+      background: rgba(34, 197, 94, 0.15);
+      border-color: var(--accent);
+      transform: scale(1.05);
+      transition: all 0.2s ease;
+    }
+
 
     .stat-pill strong {
       color: var(--accent);
@@ -325,19 +338,23 @@
         <img src="Your paragraph text.jpg" alt="Jay Tiwari" class="avatar">
         <div class="hero-text">
           <h1>Jay Tiwari</h1>
-          <p>Senior Software Engineer • System Design & FAANG Interview Mentor</p>
+          <p>Software Development Manager • System Design & FAANG Interview Mentor</p>
         </div>
       </div>
 
       <p class="hero-sub">
-        I help software engineers **crack system design and FAANG-style interviews** with clear frameworks,
+        I help software engineers / engineering managers / TPMs **crack system design and FAANG-style interviews** with clear frameworks,
         honest feedback, and real-world examples.
       </p>
 
       <div class="hero-stats">
-        <span class="stat-pill"><strong>4.9/5</strong> rating</span>
-        <span class="stat-pill"><strong>70+</strong> testimonials</span>
-        <span class="stat-pill"><strong>200+</strong> 1:1 sessions</span>
+        <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
+          <span class="stat-pill"><strong>4.9/5</strong> rating</span>
+        </a>
+          <span class="stat-pill"><strong>71</strong> testimonials</span>
+        <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
+          <span class="stat-pill"><strong>400+</strong> sessions</span>
+        </a>
       </div>
 
       <nav class="tabs" aria-label="Main sections">
