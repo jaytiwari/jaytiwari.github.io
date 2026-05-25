@@ -1,22 +1,27 @@
-<html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Jay Tiwari</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Jay Tiwari - System design, FAANG interview prep, resume review, and career mentorship." />
+  <meta name="description" content="Jay Tiwari - Amazon engineering leader, system design mentor, GenAI infrastructure builder, and career coach for engineers and engineering managers." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
   :root {
-    --bg: #fffaf5;
+    --bg: #f7fbff;
     --card: #ffffff;
-    --border: #fde6d8;
-    --accent: #f97316;        /* Main orange */
-    --accent-hover: #ea580c;  /* Darker hover */
-    --accent-soft: #fff1e6;   /* Soft background orange */
-    --text: #1c1917;
-    --muted: #78716c;
+    --border: #dbe7f4;
+    --accent: #ff6a00;
+    --accent-hover: #e25700;
+    --accent-soft: #fff2e8;
+    --blue: #1f6fff;
+    --teal: #00a99d;
+    --violet: #7c3aed;
+    --gold: #f6b73c;
+    --ink: #09111f;
+    --text: #141a27;
+    --muted: #5f6b7a;
   }
 
   * {
@@ -27,7 +32,10 @@
 
   body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg);
+    background:
+      linear-gradient(115deg, rgba(31, 111, 255, 0.08), transparent 28%),
+      linear-gradient(245deg, rgba(0, 169, 157, 0.12), transparent 32%),
+      linear-gradient(180deg, #f7fbff 0%, #fff9f1 46%, #f5fbff 100%);
     color: var(--text);
     min-height: 100vh;
   }
@@ -35,17 +43,42 @@
   /* FULL WIDTH */
   .page {
     width: 100%;
-    padding: 32px 6%;
   }
 
   /* HEADER */
   header {
-    padding: 28px;
-    border-radius: 16px;
-    border: 1px solid #cfe8ff;
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.15);
-    margin-bottom: 24px;
+    background:
+      radial-gradient(circle at 82% 45%, rgba(31, 111, 255, 0.18), transparent 22%),
+      linear-gradient(90deg, rgba(9, 17, 31, 0.98) 0%, rgba(9, 17, 31, 0.92) 48%, rgba(9, 17, 31, 0.72) 100%),
+      url("jay-tiwari-profile.jpeg");
+    background-position: center, center, 78% 44%;
+    background-size: cover;
+    align-content: end;
+    color: #fff;
+    display: grid;
+    gap: 14px 28px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+    min-height: 610px;
+    overflow: hidden;
+    padding: 18px 6% 22px;
+    position: relative;
+  }
+
+  header::after {
+    background-image:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+      linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%);
+    background-size: 42px 42px;
+    content: "";
+    inset: 0;
+    opacity: 0.55;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  header > * {
+    position: relative;
+    z-index: 1;
   }
 
   .hero-top {
@@ -85,37 +118,163 @@
     font-weight: 600;
   }
 
-  /* STAT PILLS */
-  .hero-stats {
+  .hero-content {
+    grid-column: 1;
+    max-width: 980px;
+    padding: 0;
+  }
+
+  .hero-kicker {
+    align-items: center;
+    color: #a7f3d0;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    font-weight: 800;
+    gap: 8px;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .hero-kicker::before {
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal));
+    border-radius: 999px;
+    content: "";
+    display: inline-block;
+    height: 8px;
+    width: 44px;
+  }
+
+  .hero-avatar {
+    border: 3px solid rgba(255, 255, 255, 0.88);
+    border-radius: 50%;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+    height: 92px;
+    margin-bottom: 12px;
+    object-fit: cover;
+    width: 92px;
+  }
+
+  .hero-content h1 {
+    color: #fff;
+    font-size: clamp(46px, 7vw, 78px);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 0.95;
+    margin-bottom: 12px;
+    text-shadow: 0 22px 46px rgba(0, 0, 0, 0.34);
+  }
+
+  .hero-titleline {
+    color: #eef7ff;
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 800;
+    line-height: 1.32;
+    max-width: 880px;
+  }
+
+  .hero-subcopy {
+    color: #d7e7f7;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-top: 12px;
+    max-width: 740px;
+  }
+
+  .hero-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 18px;
+    margin: 18px 0 4px;
+  }
+
+  .hero-button {
+    align-items: center;
+    background: linear-gradient(90deg, var(--accent), #ff9a3c);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    box-shadow: 0 18px 36px rgba(255, 106, 0, 0.28);
+    color: #fff;
+    display: inline-flex;
+    font-size: 15px;
+    font-weight: 900;
+    justify-content: center;
+    min-height: 46px;
+    overflow: hidden;
+    padding: 0 18px;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .hero-button::after,
+  .cta-button::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.52), transparent);
+    content: "";
+    height: 100%;
+    left: -80%;
+    position: absolute;
+    top: 0;
+    transform: skewX(-18deg);
+    width: 42%;
+  }
+
+  .hero-button:hover::after,
+  .cta-button:hover::after {
+    animation: shine 0.8s ease;
+  }
+
+  @keyframes shine {
+    to {
+      left: 130%;
+    }
+  }
+
+  /* STAT PILLS */
+  .hero-stats {
+    align-self: center;
+    display: grid;
+    gap: 12px;
+    grid-column: 2;
+    grid-template-columns: 1fr;
+    margin-top: 0;
+    max-width: none;
   }
 
   .stat-pill {
-    padding: 10px 16px;
-    border-radius: 999px;
-    border: 1px solid #1e3a8a;
-    background: #1e3a8a;              /* Dark blue */
-    color: white;                     /* White text */
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    border-radius: 16px;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+    color: white;
+    display: block;
     font-size: 14px;
-    font-weight: 600;                  /* Bold text */
+    font-weight: 700;
+    min-height: 70px;
+    padding: 14px;
     transition: all 0.25s ease;
   }
 
   /* Make numbers stronger */
   .stat-pill strong {
+    color: #fff;
+    display: block;
     font-weight: 700;
-    font-size: 15px;
-    margin-right: 4px;
+    font-size: 23px;
+    line-height: 1.15;
+    margin-bottom: 4px;
   }
 
   /* Hover effect */
   .stat-link:hover .stat-pill {
-    background: #1d4ed8;               /* Slightly lighter blue */
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(30, 58, 138, 0.35);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+  }
+
+  .stat-link {
+    text-decoration: none;
   }
 
   .highlight::before {
@@ -132,11 +291,15 @@
 
   /* TABS */
   nav.tabs {
-    margin-top: 22px;
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
     display: flex;
     gap: 8px;
+    grid-column: 1 / -1;
+    margin-top: 4px;
     padding: 6px;
-    background: #eaf1ff;
     border-radius: 999px;
   }
 
@@ -144,27 +307,27 @@
     flex: 1;
     border-radius: 999px;
     border: 2px solid transparent;
-    background: #f5e6d8;          /* soft brown background */
-    color: #7c2d12;               /* brown text */
+    background: rgba(255, 255, 255, 0.12);
+    color: #f8fbff;
     font-size: 14px;
-    font-weight: 600;             /* BOLD */
-    padding: 12px 16px;           /* bigger button feel */
+    font-weight: 800;
+    padding: 13px 16px;
     cursor: pointer;
     transition: all 0.25s ease;
   }
 
   /* Hover (inactive only) */
   nav.tabs button:hover:not(.active) {
-    background: #e7d3c2;
+    background: rgba(255, 255, 255, 0.22);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(124, 45, 18, 0.15);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
   }
 
   /* Active button */
   nav.tabs button.active {
-    background: var(--accent);   /* orange */
+    background: linear-gradient(90deg, var(--accent), var(--gold));
     color: white;
-    border: 2px solid #ea580c;
+    border: 2px solid rgba(255, 255, 255, 0.56);
     box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
   }
 
@@ -175,16 +338,16 @@
 
   /* CONTENT */
   main {
-    margin-top: 20px;
+    padding: 34px 6% 70px;
   }
 
   .tab-panel {
     display: none;
-    background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
-    border-radius: 16px;
-    border: 1px solid #ffd8b5;
-    padding: 28px;
-    box-shadow: 0 12px 30px rgba(249, 115, 22, 0.12);
+    background: rgba(255, 255, 255, 0.86);
+    border-radius: 22px;
+    border: 1px solid rgba(219, 231, 244, 0.9);
+    box-shadow: 0 24px 80px rgba(29, 78, 216, 0.14);
+    padding: 30px;
     animation: fadeIn 0.3s ease forwards;
   }
 
@@ -235,14 +398,25 @@
   .card {
     border-radius: 14px;
     border: 1px solid var(--border);
+    border-top: 4px solid var(--blue);
     padding: 18px;
     background: white;
+    overflow: hidden;
+    position: relative;
     transition: all 0.25s ease;
+  }
+
+  .card:nth-child(2n) {
+    border-top-color: var(--teal);
+  }
+
+  .card:nth-child(3n) {
+    border-top-color: var(--accent);
   }
 
   .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 18px 42px rgba(31, 111, 255, 0.16);
   }
 
   .card-title {
@@ -256,6 +430,196 @@
     margin-bottom: 8px;
   }
 
+  .pill-row,
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 16px;
+  }
+
+  .pill,
+  .tag {
+    background: #fff;
+    border: 1px solid #cde7ff;
+    border-radius: 999px;
+    color: #17456b;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 8px 11px;
+  }
+
+  .pill.highlight {
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-color: transparent;
+    color: #fff;
+  }
+
+  /* ABOUT BRANDING */
+  .about-lead {
+    display: grid;
+    gap: 24px;
+  }
+
+  .eyebrow {
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .about-lead h2 {
+    background: linear-gradient(90deg, #0f172a 0%, var(--blue) 42%, var(--teal) 76%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: clamp(32px, 4.3vw, 54px);
+    line-height: 1.15;
+    margin-bottom: 12px;
+    max-width: 1040px;
+  }
+
+  .brand-statement {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.65;
+    max-width: 900px;
+  }
+
+  .about-copy {
+    max-width: 920px;
+  }
+
+  .impact-grid,
+  .belief-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    margin: 20px 0 26px;
+  }
+
+  .impact-card,
+  .belief-card {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 255, 0.92));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    padding: 16px;
+  }
+
+  .impact-card:nth-child(1) {
+    border-top: 4px solid var(--teal);
+  }
+
+  .impact-card:nth-child(2) {
+    border-top: 4px solid var(--blue);
+  }
+
+  .impact-card:nth-child(3) {
+    border-top: 4px solid var(--accent);
+  }
+
+  .impact-card:nth-child(4) {
+    border-top: 4px solid var(--violet);
+  }
+
+  .impact-value {
+    color: var(--blue);
+    display: block;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .impact-label,
+  .belief-card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .section-kicker {
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 30px 0 12px;
+  }
+
+  .belief-card h3 {
+    color: var(--text);
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .topic-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 24px;
+  }
+
+  .topic-pill {
+    background: linear-gradient(180deg, #fff, #f7fbff);
+    border: 1px solid #cde7ff;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(31, 111, 255, 0.08);
+    color: #17456b;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 12px;
+  }
+
+  .about-cta {
+    align-items: center;
+    background:
+      linear-gradient(90deg, rgba(31, 111, 255, 0.08), rgba(0, 169, 157, 0.08)),
+      #fff;
+    border: 1px solid #cde7ff;
+    border-radius: 16px;
+    box-shadow: 0 18px 46px rgba(31, 111, 255, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 18px;
+  }
+
+  .about-cta p {
+    margin: 0;
+    max-width: 680px;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cta-button {
+    background: var(--accent);
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 14px;
+    font-weight: 700;
+    overflow: hidden;
+    padding: 10px 14px;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .cta-button.secondary {
+    background: var(--blue);
+  }
+
   footer {
     text-align: center;
     font-size: 13px;
@@ -266,7 +630,13 @@
   /* MOBILE */
   @media (max-width: 600px) {
     .page {
-      padding: 20px;
+      padding: 0;
+    }
+
+    header {
+      display: block;
+      min-height: auto;
+      padding: 14px 20px 18px;
     }
 
     .hero-top {
@@ -274,36 +644,117 @@
       text-align: center;
     }
 
+    .hero-avatar {
+      height: 64px;
+      width: 64px;
+    }
+
+    .hero-content h1 {
+      font-size: 43px;
+    }
+
+    .hero-titleline {
+      font-size: 17px;
+    }
+
+    .hero-subcopy {
+      font-size: 14px;
+    }
+
+    .hero-actions,
+    .hero-button {
+      width: 100%;
+    }
+
+    .hero-button {
+      min-height: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scroll-snap-type: x proximity;
+    }
+
+    .hero-stats::-webkit-scrollbar {
+      display: none;
+    }
+
+    .stat-link {
+      flex: 0 0 154px;
+      scroll-snap-align: start;
+    }
+
+    .stat-pill {
+      min-height: 88px;
+    }
+
     nav.tabs {
-      flex-wrap: wrap;
-      border-radius: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-radius: 18px;
     }
 
     nav.tabs button {
-      flex: 100%;
+      flex: none;
+      min-height: 52px;
+      padding: 10px 8px;
+    }
+
+    main {
+      padding: 26px 20px 56px;
+    }
+
+    .tab-panel {
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .about-lead h2 {
+      font-size: 25px;
+    }
+
+    .brand-statement {
+      font-size: 16px;
+    }
+
+    .about-cta {
+      align-items: stretch;
+    }
+
+    .cta-actions,
+    .cta-button {
+      width: 100%;
+    }
+
+    .cta-button {
+      justify-content: center;
     }
   }
   .social-footer {
     text-align: center;
     padding: 2em 1em;
-    background: #f8f9fa;
+    background: #09111f;
     margin-top: 3em;
-    border-top: 1px solid #eee;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
   .social-links a {
     display: inline-block;
     font-size: 1.5em;
     margin: 0 1em;
-    color: #555;
+    color: #e7f0ff;
     transition: color 0.3s ease;
   }
   .social-links a:hover {
-    color: #007bff; /* Blue hover effect */
+    color: var(--gold);
   }
   .social-footer p {
     margin-top: 1em;
     font-size: 0.9em;
-    color: #666;
+    color: #b8c7dd;
   }
 
 </style>
@@ -311,26 +762,36 @@
 <body>
   <div class="page">
     <header>
-      <div class="hero-top">
-        <img src="Your paragraph text.jpg" alt="Jay Tiwari" class="avatar">
-        <div class="hero-text">
-          <h1>Jay Tiwari</h1>
-          <p><strong>Software Development Manager • System Design & FAANG Interview Mentor</strong></p>
+      <div class="hero-content">
+        <img src="jay-tiwari-profile.jpeg" alt="Jay Tiwari" class="hero-avatar">
+        <p class="hero-kicker">He/Him • Greater Seattle • Engineering Manager at Amazon</p>
+        <h1>Jay Tiwari</h1>
+        <p class="hero-titleline">
+          Distributed systems expert building infrastructure for scalability, availability, and engineering excellence
+        </p>
+        <p class="hero-subcopy">
+          I help engineers and engineering leaders think sharper, design stronger systems,
+          and grow into high-impact roles with practical frameworks from real internet-scale work.
+        </p>
+
+        <div class="hero-actions">
+          <a class="hero-button" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book a 1:1 session</a>
+          <a class="hero-button secondary" href="https://www.linkedin.com/in/jayptiwari/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
         </div>
       </div>
 
-      <p><strong>
-        Building efficiency in Engineers, Engineering Managers & Tech Program Managers - coaching them to crush system design and FAANG interviews with frameworks that work </strong></p>
-
       <div class="hero-stats">
         <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
-          <span class="stat-pill"><strong>4.9/5</strong> rating</span>
+          <span class="stat-pill"><strong>Learn</strong> distributed systems</span>
         </a>
         <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
-          <span class="stat-pill"><strong>71</strong> testimonials</span>
+          <span class="stat-pill"><strong>Build</strong> AI/ML infrastructure</span>
         </a>
         <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
-          <span class="stat-pill"><strong>400+</strong> sessions</span>
+          <span class="stat-pill"><strong>Grow</strong> people leadership</span>
+        </a>
+        <a href="https://topmate.io/jay_tiwari" target="_blank" class="stat-link">
+          <span class="stat-pill"><strong>Master</strong> system design</span>
         </a>
       </div>
 
@@ -357,37 +818,99 @@
     <main>
       <!-- ABOUT ME -->
       <section id="tab-about" class="tab-panel active">
-        <h2>About me</h2>
-        <p class="subtitle">
-          A bit about who I am, what I do, and how I like to help.
-        </p>
+        <div class="about-lead">
+          <div>
+            <p class="eyebrow">Tech leader • Builder • Mentor</p>
+            <h2>Building systems, teams, and engineering careers at internet scale.</h2>
+            <p class="brand-statement">
+              I am Jay Tiwari, an Amazon engineering leader working across Amazon Ads, AWS S3,
+              GenAI infrastructure, ML inference, and large-scale service platforms.
+            </p>
+          </div>
 
-        <p>
-          I’m Jay Tiwari — a hands-on technology leader, career coach, and mentor with 15+ years of experience building and scaling distributed systems, cloud infrastructure, and large-scale products across world-class engineering teams. I currently lead engineering at Amazon Ads, where my teams drive mission-critical systems that serve millions of users and handle massive traffic with real-world performance demands. Over the years I’ve helped hundreds of engineers get ready for FAANG-level interviews, technical career growth, and leadership readiness by combining deep technical expertise with practical hiring insights. I’ve personally interviewed 1500+ technical candidates, giving me a unique perspective on what top companies truly look for — and how you can confidently demonstrate your strengths.  ￼
-        </p>
-          <p>I focus on: </p>
-          <ul class="indented-list">
-            <li> <strong>System design that scales</strong> </li>
-            <li> <strong>Career acceleration & interview readiness</strong> </li>
-            <li> <strong>Problem-solving frameworks that get results</strong> </li>
-            <li> <strong>Personalized coaching that meets you where you are</strong> </li>
-          </ul>
-        <br>
+          <div class="about-copy">
+            <p>
+              My work sits at the intersection of deep infrastructure and practical leadership:
+              scaling Tier-1 services, launching customer-facing AWS features, building engineering
+              teams from scratch, and turning ambiguous technical problems into mechanisms that ship.
+            </p>
+            <p>
+              I have led teams behind AWS S3 launches such as S3 Express One Zone, GetObjectAttributes,
+              Additional Checksums, and read-after-write consistency. In Amazon Ads, I lead platform
+              and infrastructure work across publisher ad serving, ML-driven pricing, GenAI operations,
+              and services that operate under massive traffic and reliability expectations.
+            </p>
+          </div>
+        </div>
 
-        <p class="highlight">What my mentees repeatedly tell me is that my feedback isn’t just theoretical — it’s actionable, real-world, and tailored to their goals. Whether you’re preparing for coding, design, leadership, or behavioral interviews, my mentoring sessions are structured to give you the confidence and clarity to succeed. 
-        </p>
+        <div class="impact-grid" aria-label="Leadership impact highlights">
+          <div class="impact-card">
+            <span class="impact-value">70M/sec</span>
+            <p class="impact-label">Tier-1 AWS S3 metadata service scale owned across reliability, latency, and customer trust.</p>
+          </div>
+          <div class="impact-card">
+            <span class="impact-value">20M+/sec</span>
+            <p class="impact-label">Ad-serving API scale across OpenRTB and AdCOM compliant infrastructure.</p>
+          </div>
+          <div class="impact-card">
+            <span class="impact-value">$300M</span>
+            <p class="impact-label">Revenue impact from idea to strategy to execution.</p>
+          </div>
+          <div class="impact-card">
+            <span class="impact-value">1000+</span>
+            <p class="impact-label">Technical interviews informing direct, practical coaching for engineers and managers.</p>
+          </div>
+        </div>
 
-        <p>
-          On the mentorship side, I work with engineers who want to break into top tech companies, level up
-          their system design thinking, or get unstuck in their careers. Sessions are direct, friendly, and
-          focused on clear next steps rather than generic advice.
-        </p>
+        <p class="section-kicker">What I want to be known for</p>
+        <div class="belief-grid">
+          <article class="belief-card">
+            <h3>Systems thinking that survives real traffic</h3>
+            <p>
+              I teach architecture through constraints: latency, cost, blast radius, operations,
+              data integrity, and the trade-offs that show up after launch.
+            </p>
+          </article>
+          <article class="belief-card">
+            <h3>Leadership mechanisms that scale teams</h3>
+            <p>
+              I care about hiring, coaching, promotion readiness, writing clear business reviews,
+              and creating team rituals that turn execution into repeatable operating strength.
+            </p>
+          </article>
+          <article class="belief-card">
+            <h3>Career guidance with hiring-room signal</h3>
+            <p>
+              My mentorship is direct, specific, and grounded in what strong interview loops,
+              senior-level system design, and leadership evaluations actually test.
+            </p>
+          </article>
+        </div>
 
-        <ul>
-          <li><strong>Who I work best with:</strong> SDEs/SDMs/TPMs preparing for FAANG interviews, system design, or senior-level behavioral interviews.</li>
-          <li><strong>What you can expect:</strong> Mock interviews, Resume reviews, Honest feedback, Practical examples, and a concrete action plan.</li>
-          <li><strong>Format:</strong> online 1:1 video calls and async/email support where needed.</li>
-        </ul>
+        <p class="section-kicker">Topics I write, mentor, and speak about</p>
+        <div class="topic-cloud" aria-label="Jay Tiwari topics">
+          <span class="topic-pill">System design</span>
+          <span class="topic-pill">AWS S3</span>
+          <span class="topic-pill">AdTech infrastructure</span>
+          <span class="topic-pill">ML inference platforms</span>
+          <span class="topic-pill">GenAI operations</span>
+          <span class="topic-pill">MCP servers</span>
+          <span class="topic-pill">Engineering leadership</span>
+          <span class="topic-pill">Interview readiness</span>
+          <span class="topic-pill">Career growth</span>
+        </div>
+
+        <div class="about-cta">
+          <p>
+            I share practical frameworks for engineers, engineering managers, and technical program
+            managers who want to design better systems, lead with more clarity, and grow into stronger
+            opportunities.
+          </p>
+          <div class="cta-actions">
+            <a class="cta-button" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book mentorship</a>
+            <a class="cta-button secondary" href="https://www.linkedin.com/in/jayptiwari/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+          </div>
+        </div>
       </section>
 
       <!-- BLOGS -->
@@ -581,10 +1104,6 @@
       </section>
     </main>
 
-    <footer>
-        <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <footer class="social-footer">
       <div class="social-links">
         <a href="https://www.topmate.io/jay_tiwari" target="_blank" title="Book a session" aria-label="Topmate">
@@ -602,8 +1121,7 @@
       </div>
       <br><br>
       © <span id="year"></span> Jay Tiwari · All rights reserved
-      </div>
-       
+    </footer>
   </div>
 
   <script>
