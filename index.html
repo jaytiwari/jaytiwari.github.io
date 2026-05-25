@@ -137,15 +137,6 @@
     text-transform: uppercase;
   }
 
-  .hero-kicker::before {
-    background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal));
-    border-radius: 999px;
-    content: "";
-    display: inline-block;
-    height: 8px;
-    width: 44px;
-  }
-
   .hero-avatar {
     border: 3px solid rgba(255, 255, 255, 0.88);
     border-radius: 50%;
@@ -222,6 +213,33 @@
   .hero-button:hover::after,
   .cta-button:hover::after {
     animation: shine 0.8s ease;
+  }
+
+  .mentor-proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 0;
+  }
+
+  .proof-pill {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 999px;
+    color: #f8fbff;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 800;
+    min-height: 38px;
+    padding: 0 13px;
+    text-decoration: none;
+  }
+
+  .proof-pill strong {
+    color: #fff;
+    font-size: 15px;
+    margin-right: 5px;
   }
 
   @keyframes shine {
@@ -671,21 +689,16 @@
     }
 
     .hero-stats {
-      display: flex;
+      display: grid;
       gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 18px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scroll-snap-type: x proximity;
-    }
-
-    .hero-stats::-webkit-scrollbar {
-      display: none;
+      overflow: visible;
+      padding-bottom: 0;
     }
 
     .stat-link {
-      flex: 0 0 154px;
-      scroll-snap-align: start;
+      min-width: 0;
     }
 
     .stat-pill {
@@ -762,9 +775,9 @@
 <body>
   <div class="page">
     <header>
-      <div class="hero-content">
+        <div class="hero-content">
         <img src="jay-tiwari-profile.jpeg" alt="Jay Tiwari" class="hero-avatar">
-        <p class="hero-kicker">He/Him • Greater Seattle • Engineering Manager at Amazon</p>
+        <p class="hero-kicker">Greater Seattle • Engineering Manager at Amazon</p>
         <h1>Jay Tiwari</h1>
         <p class="hero-titleline">
           Distributed systems expert building infrastructure for scalability, availability, and engineering excellence
@@ -777,6 +790,10 @@
         <div class="hero-actions">
           <a class="hero-button" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book a 1:1 session</a>
           <a class="hero-button secondary" href="https://www.linkedin.com/in/jayptiwari/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
+        </div>
+        <div class="mentor-proof" aria-label="Topmate mentoring proof">
+          <a class="proof-pill" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer"><strong>4.9/5</strong> rating</a>
+          <a class="proof-pill" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer"><strong>400+</strong> sessions</a>
         </div>
       </div>
 
