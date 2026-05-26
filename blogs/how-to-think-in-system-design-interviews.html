@@ -206,6 +206,229 @@
       margin: 0;
     }
 
+    .system-visual {
+      background:
+        linear-gradient(135deg, rgba(255, 106, 0, 0.08), rgba(31, 111, 255, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 18px;
+      box-shadow: 0 20px 54px rgba(31, 111, 255, 0.13);
+      margin: 34px 0;
+      overflow: hidden;
+    }
+
+    .visual-header {
+      align-items: center;
+      background: #09111f;
+      color: #ffffff;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    .visual-header span {
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      color: #a7f3d0;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      text-transform: uppercase;
+    }
+
+    .visual-header strong {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .visual-body {
+      padding: 22px;
+    }
+
+    .flow-diagram,
+    .cache-flow {
+      align-items: stretch;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr 52px 1fr 52px 1fr;
+    }
+
+    .cache-flow {
+      grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr;
+    }
+
+    .node {
+      background: #ffffff;
+      border: 1px solid #dbe7f4;
+      border-top: 5px solid var(--blue);
+      border-radius: 16px;
+      min-height: 112px;
+      padding: 16px;
+    }
+
+    .node.teal {
+      border-top-color: var(--teal);
+    }
+
+    .node.orange {
+      border-top-color: var(--accent);
+    }
+
+    .node.gold {
+      border-top-color: var(--gold);
+    }
+
+    .node small {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      margin-bottom: 7px;
+      text-transform: uppercase;
+    }
+
+    .node strong {
+      color: var(--ink);
+      display: block;
+      font-size: 18px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .node span {
+      color: var(--muted);
+      display: block;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .arrow {
+      align-items: center;
+      color: var(--blue);
+      display: flex;
+      font-size: 13px;
+      font-weight: 900;
+      justify-content: center;
+      line-height: 1.3;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .scale-columns {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .scale-column {
+      background: #ffffff;
+      border: 1px solid #dbe7f4;
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .scale-column h3 {
+      margin-top: 0;
+    }
+
+    .server-tower {
+      background: linear-gradient(180deg, #09111f, #172338);
+      border-radius: 15px;
+      color: #ffffff;
+      margin: 14px auto 16px;
+      max-width: 190px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .server-tower strong {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .resource-list {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 14px;
+    }
+
+    .resource-list span,
+    .cluster-node,
+    .data-node {
+      background: #f4f8fc;
+      border: 1px solid #dbe7f4;
+      border-radius: 12px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .load-balancer {
+      background: linear-gradient(90deg, var(--accent), #ff9a3c);
+      border-radius: 999px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 14px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .cluster-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+
+    .shared-state {
+      align-items: center;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .data-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .data-node {
+      min-height: 120px;
+      padding: 14px;
+      text-align: left;
+    }
+
+    .data-node strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .data-node span {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    figcaption {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-top: 16px;
+    }
+
     .quote {
       background: #09111f;
       border-radius: 16px;
@@ -309,6 +532,31 @@
         border-radius: 18px;
       }
 
+      .visual-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .visual-body {
+        padding: 16px;
+      }
+
+      .flow-diagram,
+      .cache-flow,
+      .scale-columns,
+      .data-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        min-height: 28px;
+        transform: rotate(90deg);
+      }
+
+      .node {
+        min-height: auto;
+      }
+
       .cta,
       .cta a {
         width: 100%;
@@ -392,6 +640,38 @@
           quickly.
         </p>
 
+        <figure class="system-visual" aria-label="Client-server architecture request path diagram">
+          <div class="visual-header">
+            <strong>Client-server architecture: start with the request path</strong>
+            <span>Diagram 1</span>
+          </div>
+          <div class="visual-body">
+            <div class="flow-diagram">
+              <div class="node orange">
+                <small>Users</small>
+                <strong>Client apps</strong>
+                <span>Web, mobile, or device clients sending requests.</span>
+              </div>
+              <div class="arrow">Request</div>
+              <div class="node">
+                <small>Compute</small>
+                <strong>Service API</strong>
+                <span>Authentication, validation, business logic, and routing.</span>
+              </div>
+              <div class="arrow">Read / write</div>
+              <div class="node teal">
+                <small>State</small>
+                <strong>Database</strong>
+                <span>The source of truth for durable application data.</span>
+              </div>
+            </div>
+            <figcaption>
+              Before adding advanced components, explain the simplest path clearly: who calls the system,
+              what service handles the request, and where durable state lives.
+            </figcaption>
+          </div>
+        </figure>
+
         <div class="section-rule"></div>
         <h2>2. Think in Trade-Offs, Not Absolutes</h2>
         <p>There is no perfect system design.</p>
@@ -414,6 +694,44 @@
           <span>That single sentence demonstrates maturity.</span>
         </div>
         <p>System design interviews reward nuanced thinking far more than certainty.</p>
+
+        <figure class="system-visual" aria-label="Caching, database, and object storage read path diagram">
+          <div class="visual-header">
+            <strong>Caching is a trade-off, not free performance</strong>
+            <span>Diagram 2</span>
+          </div>
+          <div class="visual-body">
+            <div class="cache-flow">
+              <div class="node orange">
+                <small>Client</small>
+                <strong>Read request</strong>
+                <span>User opens a feed, profile, video, or product page.</span>
+              </div>
+              <div class="arrow">To API</div>
+              <div class="node">
+                <small>Service</small>
+                <strong>Application tier</strong>
+                <span>Checks fast paths first, then falls back when needed.</span>
+              </div>
+              <div class="arrow">Hot data</div>
+              <div class="node gold">
+                <small>Speed</small>
+                <strong>Cache</strong>
+                <span>Low latency for popular or repeated reads.</span>
+              </div>
+              <div class="arrow">Miss</div>
+              <div class="node teal">
+                <small>Durability</small>
+                <strong>Database + object storage</strong>
+                <span>Metadata in databases; large blobs in object storage.</span>
+              </div>
+            </div>
+            <figcaption>
+              A cache can reduce latency and database load, but it introduces freshness, invalidation, and
+              consistency decisions that you should call out explicitly.
+            </figcaption>
+          </div>
+        </figure>
 
         <div class="section-rule"></div>
         <h2>3. Design for Scale Incrementally</h2>
@@ -442,6 +760,49 @@
         <p>This demonstrates practical engineering judgment.</p>
         <p>Real-world systems rarely begin as massively distributed architectures.</p>
         <p>They become distributed because growth forces them to.</p>
+
+        <figure class="system-visual" aria-label="Vertical scaling versus horizontal scaling diagram">
+          <div class="visual-header">
+            <strong>Scale up first when it is enough; scale out when one box becomes the bottleneck</strong>
+            <span>Diagram 3</span>
+          </div>
+          <div class="visual-body">
+            <div class="scale-columns">
+              <div class="scale-column">
+                <h3>Vertical scaling</h3>
+                <p>Add more power to one machine. It is simple, but every machine has a ceiling.</p>
+                <div class="server-tower">
+                  <strong>1x</strong>
+                  Larger server
+                </div>
+                <div class="resource-list" aria-label="Vertical scaling resources">
+                  <span>More CPU</span>
+                  <span>More RAM</span>
+                  <span>More I/O</span>
+                </div>
+              </div>
+              <div class="scale-column">
+                <h3>Horizontal scaling</h3>
+                <p>Add more machines behind a load balancer. It scales further, but adds coordination cost.</p>
+                <div class="load-balancer">Load balancer</div>
+                <div class="cluster-grid" aria-label="Horizontally scaled service nodes">
+                  <div class="cluster-node">App node</div>
+                  <div class="cluster-node">App node</div>
+                  <div class="cluster-node">App node</div>
+                  <div class="cluster-node">App node</div>
+                </div>
+                <div class="shared-state">
+                  <div class="cluster-node">Cache</div>
+                  <div class="cluster-node">Database</div>
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              In interviews, the strongest answer usually explains when the system moves from vertical
+              scaling to horizontal scaling and what new failure modes that creates.
+            </figcaption>
+          </div>
+        </figure>
 
         <div class="section-rule"></div>
         <h2>4. Communicate Constantly</h2>
@@ -571,6 +932,44 @@
           <li>indexing</li>
           <li>rate limiting</li>
         </ul>
+        <figure class="system-visual" aria-label="System design building blocks diagram">
+          <div class="visual-header">
+            <strong>Common building blocks and what they are usually for</strong>
+            <span>Diagram 4</span>
+          </div>
+          <div class="visual-body">
+            <div class="data-grid">
+              <div class="data-node">
+                <strong>CDN</strong>
+                <span>Serves static content near users and reduces origin traffic.</span>
+              </div>
+              <div class="data-node">
+                <strong>Object storage</strong>
+                <span>Stores images, videos, documents, backups, and other large blobs.</span>
+              </div>
+              <div class="data-node">
+                <strong>Cache</strong>
+                <span>Accelerates hot reads and shields databases during traffic spikes.</span>
+              </div>
+              <div class="data-node">
+                <strong>Database</strong>
+                <span>Stores durable metadata, relationships, indexes, and transactions.</span>
+              </div>
+              <div class="data-node">
+                <strong>Queue</strong>
+                <span>Buffers async work so slower downstream systems do not block the user path.</span>
+              </div>
+              <div class="data-node">
+                <strong>Rate limiter</strong>
+                <span>Protects services from abuse, runaway clients, and sudden bursts.</span>
+              </div>
+            </div>
+            <figcaption>
+              The interview is not about naming every component. It is about choosing the right component
+              for the constraint you are solving.
+            </figcaption>
+          </div>
+        </figure>
         <p>System design interviews are often just combinations of these building blocks under different constraints.</p>
         <p>The goal is not memorization.</p>
         <p>The goal is understanding when and why to use each component.</p>
