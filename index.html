@@ -437,6 +437,13 @@
     box-shadow: 0 18px 42px rgba(31, 111, 255, 0.16);
   }
 
+  .card-link {
+    color: inherit;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+  }
+
   .card-title {
     font-weight: 600;
     margin-bottom: 6px;
@@ -446,6 +453,14 @@
     font-size: 13px;
     color: var(--muted);
     margin-bottom: 8px;
+  }
+
+  .card-action {
+    color: var(--blue);
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 6px;
   }
 
   .pill-row,
@@ -939,19 +954,22 @@
 
         <div class="card-list">
           <article class="card">
+            <a class="card-link" href="blogs/how-to-think-in-system-design-interviews.html">
+              <div class="card-title">How to think in system design interviews</div>
+              <div class="card-meta">System design • 8 min read</div>
+              <p>
+                A practical framework for navigating ambiguity, making trade-offs, and showing engineering judgment under pressure.
+              </p>
+              <span class="card-action">Read article</span>
+            </a>
+          </article>
+
+          <article class="card">
             <div class="card-title">How to scale a service for spiky traffic</div>
             <div class="card-meta">System design • Coming soon</div>
             <p>
               A placeholder for an upcoming post on handling sudden traffic bursts, protecting downstream
               dependencies, and scaling a service without overbuilding too early.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-title">How to think in system design interviews</div>
-            <div class="card-meta">System design • 8 min read</div>
-            <p>
-              A step-by-step way to approach any system design problem, from clarifying requirements to trade‑offs.
             </p>
           </article>
 
@@ -1151,15 +1169,35 @@
       references: document.getElementById("tab-references")
     };
 
+    function activateTab(tab) {
+      if (!panels[tab]) {
+        return;
+      }
+
+      tabButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.tab === tab);
+      });
+
+      Object.entries(panels).forEach(([name, el]) => {
+        el.classList.toggle("active", name === tab);
+      });
+    }
+
+    function tabFromHash() {
+      return window.location.hash.slice(1) || "about";
+    }
+
     tabButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const tab = btn.dataset.tab;
-        tabButtons.forEach((b) => b.classList.toggle("active", b === btn));
-        Object.entries(panels).forEach(([name, el]) => {
-          el.classList.toggle("active", name === tab);
-        });
+        activateTab(tab);
+        history.replaceState(null, "", `#${tab}`);
       });
     });
+
+    activateTab(tabFromHash());
+    window.addEventListener("hashchange", () => activateTab(tabFromHash()));
+    requestAnimationFrame(() => activateTab(tabFromHash()));
 
     // Current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
