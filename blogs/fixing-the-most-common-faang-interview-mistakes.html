@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fixing the Most Common FAANG Interview Mistakes | Jay Tiwari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Jay Tiwari explains the most common FAANG-style interview mistakes and how candidates can fix them with clearer thinking, communication, and preparation." />
+  <style>
+    :root {
+      --accent: #ff6a00;
+      --blue: #1f6fff;
+      --teal: #00a99d;
+      --gold: #f6b73c;
+      --ink: #09111f;
+      --text: #141a27;
+      --muted: #5f6b7a;
+      --border: #dbe7f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        linear-gradient(115deg, rgba(31, 111, 255, 0.08), transparent 30%),
+        linear-gradient(245deg, rgba(0, 169, 157, 0.12), transparent 34%),
+        linear-gradient(180deg, #f7fbff 0%, #fff8ef 48%, #f4fbff 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 80% 36%, rgba(0, 169, 157, 0.24), transparent 24%),
+        linear-gradient(90deg, rgba(9, 17, 31, 0.98), rgba(9, 17, 31, 0.88)),
+        url("../jay-tiwari-profile.jpeg");
+      background-position: center, center, 82% 42%;
+      background-size: cover;
+      color: #ffffff;
+      padding: 36px 6% 46px;
+      position: relative;
+    }
+
+    .hero::after {
+      background-image:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%);
+      background-size: 42px 42px;
+      content: "";
+      inset: 0;
+      opacity: 0.42;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .hero-inner {
+      max-width: 980px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      align-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      color: #f8fbff;
+      display: inline-flex;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 34px;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+
+    .eyebrow {
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: clamp(42px, 7vw, 78px);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 0.98;
+      margin-bottom: 18px;
+      max-width: 940px;
+      text-shadow: 0 22px 46px rgba(0, 0, 0, 0.34);
+    }
+
+    .dek {
+      color: #d7e7f7;
+      font-size: 19px;
+      line-height: 1.65;
+      max-width: 780px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      color: #f8fbff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+    }
+
+    main {
+      padding: 42px 6% 80px;
+    }
+
+    .article-shell {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(219, 231, 244, 0.9);
+      border-radius: 22px;
+      box-shadow: 0 24px 80px rgba(29, 78, 216, 0.14);
+      margin: 0 auto;
+      max-width: 960px;
+      overflow: hidden;
+    }
+
+    .article-content {
+      padding: clamp(24px, 5vw, 52px);
+    }
+
+    .intro {
+      border-left: 5px solid var(--accent);
+      color: #2b3444;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.75;
+      margin-bottom: 34px;
+      padding-left: 18px;
+    }
+
+    h2 {
+      color: var(--ink);
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: 0;
+      line-height: 1.2;
+      margin: 42px 0 14px;
+    }
+
+    h3 {
+      color: var(--ink);
+      font-size: 18px;
+      letter-spacing: 0;
+      line-height: 1.35;
+      margin: 26px 0 10px;
+    }
+
+    p {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.82;
+      margin: 0 0 18px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 24px 24px;
+    }
+
+    li {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.72;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .callout {
+      background:
+        linear-gradient(90deg, rgba(31, 111, 255, 0.08), rgba(0, 169, 157, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 16px;
+      box-shadow: 0 18px 46px rgba(31, 111, 255, 0.12);
+      margin: 30px 0;
+      padding: 22px;
+    }
+
+    .callout p {
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .interview-visual {
+      background:
+        linear-gradient(135deg, rgba(31, 111, 255, 0.08), rgba(255, 106, 0, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 18px;
+      box-shadow: 0 20px 54px rgba(31, 111, 255, 0.13);
+      margin: 34px 0;
+      overflow: hidden;
+    }
+
+    .visual-header {
+      align-items: center;
+      background: #09111f;
+      color: #ffffff;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    .visual-header strong {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .visual-body {
+      padding: 22px;
+    }
+
+    .signal-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .signal-card,
+    .loop-step,
+    .story-step {
+      background: #ffffff;
+      border: 1px solid #dbe7f4;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .signal-card {
+      border-top: 5px solid var(--blue);
+      min-height: 145px;
+    }
+
+    .signal-card:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .signal-card:nth-child(3) {
+      border-top-color: var(--accent);
+    }
+
+    .signal-card:nth-child(4) {
+      border-top-color: var(--gold);
+    }
+
+    .signal-card:nth-child(5) {
+      border-top-color: #8b5cf6;
+    }
+
+    .loop-grid {
+      align-items: stretch;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr 30px 1fr;
+    }
+
+    .loop-step {
+      border-top: 5px solid var(--accent);
+      min-height: 130px;
+    }
+
+    .loop-step:nth-of-type(3) {
+      border-top-color: var(--blue);
+    }
+
+    .loop-step:nth-of-type(5) {
+      border-top-color: var(--teal);
+    }
+
+    .loop-step:nth-of-type(7) {
+      border-top-color: var(--gold);
+    }
+
+    .loop-step:nth-of-type(9) {
+      border-top-color: #8b5cf6;
+    }
+
+    .arrow {
+      align-items: center;
+      color: var(--blue);
+      display: flex;
+      font-size: 18px;
+      font-weight: 900;
+      justify-content: center;
+    }
+
+    .story-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .story-step {
+      border-top: 5px solid var(--blue);
+    }
+
+    .story-step:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .story-step:nth-child(3) {
+      border-top-color: var(--accent);
+    }
+
+    .story-step:nth-child(4) {
+      border-top-color: var(--gold);
+    }
+
+    .story-step:nth-child(5) {
+      border-top-color: #8b5cf6;
+    }
+
+    .signal-card small,
+    .loop-step small,
+    .story-step small {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .signal-card strong,
+    .loop-step strong,
+    .story-step strong {
+      color: var(--ink);
+      display: block;
+      font-size: 17px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .signal-card span,
+    .loop-step span,
+    .story-step span {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    figcaption {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-top: 16px;
+    }
+
+    .quote {
+      background: #09111f;
+      border-radius: 16px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.65;
+      margin: 30px 0;
+      padding: 24px;
+    }
+
+    .quote span {
+      color: #a7f3d0;
+      display: block;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .section-rule {
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal), var(--blue));
+      border-radius: 999px;
+      height: 5px;
+      margin: 42px 0 6px;
+      width: 88px;
+    }
+
+    .final-thoughts {
+      background: linear-gradient(135deg, #fff4e6, #eef9ff);
+      border-radius: 18px;
+      margin-top: 44px;
+      padding: 28px;
+    }
+
+    .final-thoughts h2 {
+      margin-top: 0;
+    }
+
+    .cta {
+      align-items: center;
+      background: #09111f;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: space-between;
+      padding: 28px clamp(24px, 5vw, 52px);
+    }
+
+    .cta p {
+      color: #d7e7f7;
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .cta strong {
+      color: #ffffff;
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .cta a {
+      align-items: center;
+      background: linear-gradient(90deg, var(--accent), #ff9a3c);
+      border-radius: 999px;
+      color: #ffffff;
+      display: inline-flex;
+      font-size: 15px;
+      font-weight: 900;
+      min-height: 46px;
+      padding: 0 18px;
+      text-decoration: none;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 28px 6% 44px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .signal-grid,
+      .story-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .loop-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        min-height: 24px;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding: 24px 20px 34px;
+      }
+
+      .back-link {
+        margin-bottom: 28px;
+      }
+
+      .dek,
+      p,
+      li {
+        font-size: 16px;
+      }
+
+      main {
+        padding: 28px 20px 56px;
+      }
+
+      .article-shell {
+        border-radius: 18px;
+      }
+
+      .visual-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .visual-body {
+        padding: 16px;
+      }
+
+      .signal-grid,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta,
+      .cta a {
+        width: 100%;
+      }
+
+      .cta a {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <a class="back-link" href="../index.html#blogs">Back to blogs</a>
+      <p class="eyebrow">Interview Prep</p>
+      <h1>Fixing the Most Common FAANG Interview Mistakes</h1>
+      <p class="dek">
+        Most candidates do not fail because they are not smart enough. They fail because their thinking,
+        communication, and preparation do not create the signal the interview is looking for.
+      </p>
+      <div class="meta-row">
+        <span class="meta-pill">By Jay Tiwari</span>
+        <span class="meta-pill">Interview prep</span>
+        <span class="meta-pill">7 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article-shell">
+      <div class="article-content">
+        <p class="intro">
+          FAANG-style interviews are not perfect measures of engineering ability, but they are very good at
+          exposing preparation gaps. The strongest candidates make their reasoning easy to follow. The
+          weakest candidates often hide their thinking, rush to answers, or treat every question like a
+          memorization test.
+        </p>
+
+        <p>The good news is that most interview mistakes are fixable.</p>
+        <p>
+          You do not need to become a different person. You need better habits under pressure. You need to
+          show the interviewer how you clarify ambiguity, reason through trade-offs, write clean code, and
+          recover when the problem becomes uncomfortable.
+        </p>
+
+        <div class="callout">
+          <p>In a strong interview, the interviewer is not just evaluating your answer. They are evaluating whether they can trust your thinking.</p>
+        </div>
+
+        <figure class="interview-visual" aria-label="FAANG interview signal map">
+          <div class="visual-header">
+            <strong>What interviewers are really sampling</strong>
+          </div>
+          <div class="visual-body">
+            <div class="signal-grid">
+              <div class="signal-card">
+                <small>Clarity</small>
+                <strong>Do you understand the problem?</strong>
+                <span>Clarifies requirements, constraints, edge cases, and success criteria.</span>
+              </div>
+              <div class="signal-card">
+                <small>Reasoning</small>
+                <strong>Can you derive a solution?</strong>
+                <span>Explains options, trade-offs, complexity, and why one approach wins.</span>
+              </div>
+              <div class="signal-card">
+                <small>Execution</small>
+                <strong>Can you implement cleanly?</strong>
+                <span>Writes readable code, handles cases, and avoids avoidable bugs.</span>
+              </div>
+              <div class="signal-card">
+                <small>Communication</small>
+                <strong>Can others work with you?</strong>
+                <span>Narrates decisions and keeps the interviewer in the loop.</span>
+              </div>
+              <div class="signal-card">
+                <small>Ownership</small>
+                <strong>Do you recover under pressure?</strong>
+                <span>Uses hints, tests assumptions, and improves the solution live.</span>
+              </div>
+            </div>
+            <figcaption>
+              The interview is not a trivia contest. It is a compressed sample of how you think and work.
+            </figcaption>
+          </div>
+        </figure>
+
+        <div class="section-rule"></div>
+        <h2>1. Mistake: Starting Before You Understand the Problem</h2>
+        <p>Many candidates hear the question and immediately begin solving.</p>
+        <p>That feels productive, but it often creates a wrong first direction.</p>
+        <p>In coding interviews, candidates skip details like:</p>
+        <ul>
+          <li>Can the input be empty?</li>
+          <li>Are duplicates allowed?</li>
+          <li>Is the input sorted?</li>
+          <li>What should happen on invalid input?</li>
+          <li>Are we optimizing for time, memory, simplicity, or readability?</li>
+        </ul>
+        <p>In system design interviews, they skip constraints like:</p>
+        <ul>
+          <li>Who are the users?</li>
+          <li>What scale are we targeting?</li>
+          <li>What are the core use cases?</li>
+          <li>What matters most: latency, availability, consistency, cost, or simplicity?</li>
+        </ul>
+        <p><strong>The fix:</strong> spend the first few minutes making the problem smaller and sharper.</p>
+        <p>Say something like:</p>
+        <div class="quote">
+          "Before I jump into the solution, I want to clarify the input, expected output, and constraints so I solve the right problem."
+        </div>
+        <p>That one sentence signals maturity. You are not stalling. You are framing.</p>
+
+        <div class="section-rule"></div>
+        <h2>2. Mistake: Optimizing for the Final Answer Instead of the Thinking</h2>
+        <p>A lot of candidates believe the interview is graded only on whether they reach the final answer.</p>
+        <p>That is not how strong interviewers evaluate.</p>
+        <p>They want to see how you arrived there.</p>
+        <p>If you silently think for five minutes and then present a solution, you may be correct, but you made the evaluation harder. The interviewer cannot see your assumptions, rejected options, or decision quality.</p>
+        <p><strong>The fix:</strong> narrate the important parts of your reasoning.</p>
+        <ul>
+          <li>"A brute-force approach would be..."</li>
+          <li>"The bottleneck seems to be..."</li>
+          <li>"We can improve this by..."</li>
+          <li>"The trade-off is..."</li>
+          <li>"I am choosing this because..."</li>
+        </ul>
+        <p>You do not need to talk nonstop. But you should make your decision-making visible.</p>
+
+        <figure class="interview-visual" aria-label="Coding interview loop diagram">
+          <div class="visual-header">
+            <strong>A strong coding interview loop</strong>
+          </div>
+          <div class="visual-body">
+            <div class="loop-grid">
+              <div class="loop-step">
+                <small>Step 1</small>
+                <strong>Clarify</strong>
+                <span>Confirm inputs, outputs, edge cases, and constraints.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="loop-step">
+                <small>Step 2</small>
+                <strong>Approach</strong>
+                <span>Explain brute force, then improve with a clear pattern.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="loop-step">
+                <small>Step 3</small>
+                <strong>Test idea</strong>
+                <span>Walk through examples before writing final code.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="loop-step">
+                <small>Step 4</small>
+                <strong>Implement</strong>
+                <span>Write clean code with useful names and simple control flow.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="loop-step">
+                <small>Step 5</small>
+                <strong>Verify</strong>
+                <span>Run normal cases, edge cases, and complexity analysis.</span>
+              </div>
+            </div>
+            <figcaption>
+              The loop matters because it makes your thinking observable and keeps you from coding into a corner.
+            </figcaption>
+          </div>
+        </figure>
+
+        <div class="section-rule"></div>
+        <h2>3. Mistake: Pattern Matching Blindly</h2>
+        <p>Interview preparation often teaches candidates to recognize patterns: sliding window, two pointers, BFS, DFS, dynamic programming, heaps, tries, and so on.</p>
+        <p>Patterns are useful. Blind pattern matching is dangerous.</p>
+        <p>The mistake happens when a candidate says, "This looks like sliding window," and forces the problem into that shape without proving why it applies.</p>
+        <p><strong>The fix:</strong> use patterns as tools, not guesses.</p>
+        <p>Instead of saying:</p>
+        <div class="quote">"This is a heap problem."</div>
+        <p>Say:</p>
+        <div class="quote">
+          "Since we repeatedly need the current smallest item while processing a stream of candidates, a heap gives us efficient access to that value."
+        </div>
+        <p>Now the pattern is justified. That is the difference between memorization and reasoning.</p>
+
+        <div class="section-rule"></div>
+        <h2>4. Mistake: Writing Code Before Proving the Approach</h2>
+        <p>Many candidates rush into implementation because coding feels like progress.</p>
+        <p>But if the approach is wrong, fast coding only gets you to the wrong place faster.</p>
+        <p><strong>The fix:</strong> do a small proof before coding.</p>
+        <ol>
+          <li>State the brute-force solution.</li>
+          <li>Identify why it is too slow or too complex.</li>
+          <li>Explain the optimized idea.</li>
+          <li>Walk through one example.</li>
+          <li>Confirm complexity.</li>
+          <li>Then code.</li>
+        </ol>
+        <p>This does not have to take long. A clear two-minute setup can save ten minutes of debugging.</p>
+
+        <div class="section-rule"></div>
+        <h2>5. Mistake: Ignoring Edge Cases Until the End</h2>
+        <p>Edge cases are not decorations. They reveal whether your solution is robust.</p>
+        <p>Common missed cases include:</p>
+        <ul>
+          <li>empty input</li>
+          <li>single-element input</li>
+          <li>duplicates</li>
+          <li>negative numbers</li>
+          <li>large values</li>
+          <li>cycles in graphs</li>
+          <li>ties in ranking problems</li>
+          <li>off-by-one boundaries</li>
+        </ul>
+        <p><strong>The fix:</strong> name edge cases before implementation, then test them after.</p>
+        <p>For system design, edge cases become failure modes:</p>
+        <ul>
+          <li>What happens if a dependency is slow?</li>
+          <li>What if the cache is cold?</li>
+          <li>What if a region fails?</li>
+          <li>What if traffic spikes suddenly?</li>
+          <li>What if a queue backs up?</li>
+        </ul>
+        <p>Senior candidates do not pretend failure does not happen. They design with failure in mind.</p>
+
+        <div class="section-rule"></div>
+        <h2>6. Mistake: Going Too Deep Too Early</h2>
+        <p>This is especially common in system design interviews.</p>
+        <p>The candidate starts with sharding, Kafka, multi-region replication, Kubernetes, and elaborate data pipelines before explaining the basic user flow.</p>
+        <p>That can sound impressive, but it often creates confusion.</p>
+        <p><strong>The fix:</strong> start simple, then deepen where the interviewer wants depth.</p>
+        <p>A good flow is:</p>
+        <ol>
+          <li>Clarify requirements.</li>
+          <li>Define scale assumptions.</li>
+          <li>Draw a simple high-level design.</li>
+          <li>Identify bottlenecks.</li>
+          <li>Deep dive into the hardest one or two areas.</li>
+        </ol>
+        <p>Complexity should be introduced as a response to a constraint, not as a way to sound senior.</p>
+
+        <div class="section-rule"></div>
+        <h2>7. Mistake: Treating Behavioral Interviews Like Storytelling Theater</h2>
+        <p>Behavioral interviews are not asking for polished speeches.</p>
+        <p>They are trying to understand how you operate when the work is ambiguous, stressful, political, or imperfect.</p>
+        <p>Weak answers are vague:</p>
+        <ul>
+          <li>"I worked well with the team."</li>
+          <li>"We had a conflict, but we resolved it."</li>
+          <li>"I handled a difficult project successfully."</li>
+        </ul>
+        <p>Strong answers show ownership and judgment.</p>
+
+        <figure class="interview-visual" aria-label="Behavioral interview story structure diagram">
+          <div class="visual-header">
+            <strong>A high-signal behavioral story</strong>
+          </div>
+          <div class="visual-body">
+            <div class="story-grid">
+              <div class="story-step">
+                <small>Context</small>
+                <strong>What was happening?</strong>
+                <span>Set up the business, team, customer, or technical situation.</span>
+              </div>
+              <div class="story-step">
+                <small>Conflict</small>
+                <strong>Why was it hard?</strong>
+                <span>Name the ambiguity, disagreement, risk, or constraint.</span>
+              </div>
+              <div class="story-step">
+                <small>Decision</small>
+                <strong>What did you choose?</strong>
+                <span>Explain your trade-off and why you chose that path.</span>
+              </div>
+              <div class="story-step">
+                <small>Result</small>
+                <strong>What changed?</strong>
+                <span>Show measurable or observable impact.</span>
+              </div>
+              <div class="story-step">
+                <small>Learning</small>
+                <strong>What improved?</strong>
+                <span>Share what you would repeat or change next time.</span>
+              </div>
+            </div>
+            <figcaption>
+              The best stories do not make you sound perfect. They make your judgment visible.
+            </figcaption>
+          </div>
+        </figure>
+
+        <p><strong>The fix:</strong> prepare stories around decisions, not just accomplishments.</p>
+        <p>For each story, be ready to explain:</p>
+        <ul>
+          <li>what you owned</li>
+          <li>what was hard</li>
+          <li>what options you considered</li>
+          <li>what you did personally</li>
+          <li>what changed because of your action</li>
+          <li>what you learned</li>
+        </ul>
+
+        <div class="section-rule"></div>
+        <h2>8. Mistake: Missing Interviewer Hints</h2>
+        <p>Interviewers often give hints when you are stuck or moving in the wrong direction.</p>
+        <p>Some candidates ignore hints because they are too locked into their current approach. Others treat a hint like failure and lose confidence.</p>
+        <p><strong>The fix:</strong> treat hints as collaboration.</p>
+        <p>Say:</p>
+        <div class="quote">
+          "That is a helpful hint. Let me revisit my assumption and see if a different data structure fits better."
+        </div>
+        <p>This shows adaptability. In real engineering, changing direction based on new information is a strength.</p>
+
+        <div class="section-rule"></div>
+        <h2>9. Mistake: Practicing Only Alone</h2>
+        <p>Solo practice is useful for learning patterns and building speed.</p>
+        <p>But interviews add pressure, communication, ambiguity, and time management.</p>
+        <p>If you only practice alone, you may not notice that you:</p>
+        <ul>
+          <li>go silent under pressure</li>
+          <li>skip clarification</li>
+          <li>over-explain simple details</li>
+          <li>under-explain important trade-offs</li>
+          <li>struggle to recover from mistakes</li>
+        </ul>
+        <p><strong>The fix:</strong> include mock interviews in your preparation.</p>
+        <p>Mocks expose the gap between knowing a solution and performing well in an interview setting.</p>
+
+        <div class="section-rule"></div>
+        <h2>10. Mistake: Ending Without a Strong Close</h2>
+        <p>Many candidates finish the code or design and stop.</p>
+        <p>That leaves signal on the table.</p>
+        <p><strong>The fix:</strong> close by summarizing what you built and what you would improve next.</p>
+        <p>For coding, say:</p>
+        <ul>
+          <li>the time and space complexity</li>
+          <li>the edge cases tested</li>
+          <li>any simplifications made</li>
+        </ul>
+        <p>For system design, say:</p>
+        <ul>
+          <li>the key architecture decisions</li>
+          <li>the main trade-offs</li>
+          <li>the biggest remaining bottlenecks</li>
+          <li>what you would build next with more time</li>
+        </ul>
+        <p>A strong close makes the interview feel intentional.</p>
+
+        <div class="final-thoughts">
+          <h2>Final Thoughts</h2>
+          <p>FAANG-style interviews reward more than raw knowledge.</p>
+          <p>They reward structured thinking.</p>
+          <p>They reward communication.</p>
+          <p>They reward judgment under pressure.</p>
+          <p>They reward candidates who can recover when the path is not obvious.</p>
+          <p>
+            The best candidates do not simply memorize answers. They build habits that create signal in
+            every part of the interview.
+          </p>
+          <p><strong>Do not just prepare to solve problems. Prepare to show how you think.</strong></p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <p>
+          <strong>Want to practice before the real loop?</strong>
+          Book a 1:1 mock interview or coaching session with Jay.
+        </p>
+        <a href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book a session</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Jay Tiwari · System design, engineering leadership, and career growth
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
