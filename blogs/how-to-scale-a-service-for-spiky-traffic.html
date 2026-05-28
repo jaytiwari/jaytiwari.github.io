@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>How to Scale a Service for Spiky Traffic | Jay Tiwari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Jay Tiwari explains how to scale services for spiky traffic using scheduled scaling, forecast-informed scaling, reactive autoscaling, predictive scaling, and safe descaling." />
+  <style>
+    :root {
+      --accent: #ff6a00;
+      --blue: #1f6fff;
+      --teal: #00a99d;
+      --gold: #f6b73c;
+      --ink: #09111f;
+      --text: #141a27;
+      --muted: #5f6b7a;
+      --border: #dbe7f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        linear-gradient(115deg, rgba(255, 106, 0, 0.08), transparent 30%),
+        linear-gradient(245deg, rgba(0, 169, 157, 0.12), transparent 34%),
+        linear-gradient(180deg, #f7fbff 0%, #fff8ef 48%, #f4fbff 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 78% 35%, rgba(255, 106, 0, 0.24), transparent 24%),
+        linear-gradient(90deg, rgba(9, 17, 31, 0.98), rgba(9, 17, 31, 0.88)),
+        url("../jay-tiwari-profile.jpeg");
+      background-position: center, center, 82% 42%;
+      background-size: cover;
+      color: #ffffff;
+      padding: 36px 6% 46px;
+      position: relative;
+    }
+
+    .hero::after {
+      background-image:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%);
+      background-size: 42px 42px;
+      content: "";
+      inset: 0;
+      opacity: 0.42;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .hero-inner {
+      max-width: 980px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      align-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      color: #f8fbff;
+      display: inline-flex;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 34px;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+
+    .eyebrow {
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: clamp(42px, 7vw, 78px);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 0.98;
+      margin-bottom: 18px;
+      max-width: 940px;
+      text-shadow: 0 22px 46px rgba(0, 0, 0, 0.34);
+    }
+
+    .dek {
+      color: #d7e7f7;
+      font-size: 19px;
+      line-height: 1.65;
+      max-width: 790px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      color: #f8fbff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+    }
+
+    main {
+      padding: 42px 6% 80px;
+    }
+
+    .article-shell {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(219, 231, 244, 0.9);
+      border-radius: 22px;
+      box-shadow: 0 24px 80px rgba(29, 78, 216, 0.14);
+      margin: 0 auto;
+      max-width: 960px;
+      overflow: hidden;
+    }
+
+    .article-content {
+      padding: clamp(24px, 5vw, 52px);
+    }
+
+    .intro {
+      border-left: 5px solid var(--accent);
+      color: #2b3444;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.75;
+      margin-bottom: 34px;
+      padding-left: 18px;
+    }
+
+    h2 {
+      color: var(--ink);
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: 0;
+      line-height: 1.2;
+      margin: 42px 0 14px;
+    }
+
+    h3 {
+      color: var(--ink);
+      font-size: 18px;
+      letter-spacing: 0;
+      line-height: 1.35;
+      margin: 26px 0 10px;
+    }
+
+    p {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.82;
+      margin: 0 0 18px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 24px 24px;
+    }
+
+    li {
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.72;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .callout {
+      background:
+        linear-gradient(90deg, rgba(255, 106, 0, 0.08), rgba(31, 111, 255, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 16px;
+      box-shadow: 0 18px 46px rgba(31, 111, 255, 0.12);
+      margin: 30px 0;
+      padding: 22px;
+    }
+
+    .callout p {
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .scaling-visual {
+      background:
+        linear-gradient(135deg, rgba(31, 111, 255, 0.08), rgba(0, 169, 157, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 18px;
+      box-shadow: 0 20px 54px rgba(31, 111, 255, 0.13);
+      margin: 34px 0;
+      overflow: hidden;
+    }
+
+    .visual-header {
+      align-items: center;
+      background: #09111f;
+      color: #ffffff;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    .visual-header strong {
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .visual-body {
+      padding: 22px;
+    }
+
+    .drawn-picture {
+      background:
+        linear-gradient(135deg, rgba(255, 106, 0, 0.08), rgba(31, 111, 255, 0.08)),
+        #ffffff;
+      border: 1px solid #cde7ff;
+      border-radius: 18px;
+      box-shadow: 0 20px 54px rgba(31, 111, 255, 0.13);
+      margin: 34px 0;
+      overflow: hidden;
+    }
+
+    .drawn-picture svg {
+      display: block;
+      height: auto;
+      width: 100%;
+    }
+
+    .picture-caption {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+      padding: 0 22px 22px;
+    }
+
+    .svg-title {
+      fill: var(--ink);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .svg-label {
+      fill: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .svg-small {
+      fill: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .strategy-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .strategy-card,
+    .signal-card,
+    .timeline-card,
+    .descale-card {
+      background: #ffffff;
+      border: 1px solid #dbe7f4;
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .strategy-card {
+      border-top: 5px solid var(--blue);
+      min-height: 150px;
+    }
+
+    .strategy-card:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .strategy-card:nth-child(3) {
+      border-top-color: var(--accent);
+    }
+
+    .strategy-card:nth-child(4) {
+      border-top-color: var(--gold);
+    }
+
+    .pipeline-grid {
+      align-items: stretch;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr;
+    }
+
+    .signal-card {
+      border-top: 5px solid var(--teal);
+      min-height: 132px;
+    }
+
+    .signal-card:nth-of-type(3) {
+      border-top-color: var(--blue);
+    }
+
+    .signal-card:nth-of-type(5) {
+      border-top-color: var(--accent);
+    }
+
+    .signal-card:nth-of-type(7) {
+      border-top-color: var(--gold);
+    }
+
+    .arrow {
+      align-items: center;
+      color: var(--blue);
+      display: flex;
+      font-size: 18px;
+      font-weight: 900;
+      justify-content: center;
+    }
+
+    .timeline-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .timeline-card {
+      border-top: 5px solid var(--blue);
+      min-height: 132px;
+    }
+
+    .timeline-card:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .timeline-card:nth-child(3) {
+      border-top-color: var(--accent);
+    }
+
+    .timeline-card:nth-child(4) {
+      border-top-color: var(--gold);
+    }
+
+    .timeline-card:nth-child(5) {
+      border-top-color: #8b5cf6;
+    }
+
+    .descale-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .descale-card {
+      border-left: 5px solid var(--accent);
+      min-height: 128px;
+    }
+
+    .descale-card:nth-child(2) {
+      border-left-color: var(--teal);
+    }
+
+    .descale-card:nth-child(3) {
+      border-left-color: var(--blue);
+    }
+
+    .strategy-card small,
+    .signal-card small,
+    .timeline-card small,
+    .descale-card small {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .strategy-card strong,
+    .signal-card strong,
+    .timeline-card strong,
+    .descale-card strong {
+      color: var(--ink);
+      display: block;
+      font-size: 17px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .strategy-card span,
+    .signal-card span,
+    .timeline-card span,
+    .descale-card span {
+      color: var(--muted);
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    figcaption {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-top: 16px;
+    }
+
+    .quote {
+      background: #09111f;
+      border-radius: 16px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.65;
+      margin: 30px 0;
+      padding: 24px;
+    }
+
+    .quote span {
+      color: #a7f3d0;
+      display: block;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .section-rule {
+      background: linear-gradient(90deg, var(--accent), var(--gold), var(--teal), var(--blue));
+      border-radius: 999px;
+      height: 5px;
+      margin: 42px 0 6px;
+      width: 88px;
+    }
+
+    .final-thoughts {
+      background: linear-gradient(135deg, #fff4e6, #eef9ff);
+      border-radius: 18px;
+      margin-top: 44px;
+      padding: 28px;
+    }
+
+    .final-thoughts h2 {
+      margin-top: 0;
+    }
+
+    .cta {
+      align-items: center;
+      background: #09111f;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: space-between;
+      padding: 28px clamp(24px, 5vw, 52px);
+    }
+
+    .cta p {
+      color: #d7e7f7;
+      margin: 0;
+      max-width: 560px;
+    }
+
+    .cta strong {
+      color: #ffffff;
+      display: block;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .cta a {
+      align-items: center;
+      background: linear-gradient(90deg, var(--accent), #ff9a3c);
+      border-radius: 999px;
+      color: #ffffff;
+      display: inline-flex;
+      font-size: 15px;
+      font-weight: 900;
+      min-height: 46px;
+      padding: 0 18px;
+      text-decoration: none;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 28px 6% 44px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .strategy-grid,
+      .timeline-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        min-height: 24px;
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding: 24px 20px 34px;
+      }
+
+      .back-link {
+        margin-bottom: 28px;
+      }
+
+      .dek,
+      p,
+      li {
+        font-size: 16px;
+      }
+
+      main {
+        padding: 28px 20px 56px;
+      }
+
+      .article-shell {
+        border-radius: 18px;
+      }
+
+      .visual-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .visual-body {
+        padding: 16px;
+      }
+
+      .picture-caption {
+        padding: 0 16px 18px;
+      }
+
+      .strategy-grid,
+      .timeline-grid,
+      .descale-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta,
+      .cta a {
+        width: 100%;
+      }
+
+      .cta a {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <a class="back-link" href="../index.html#blogs">Back to blogs</a>
+      <p class="eyebrow">System Design</p>
+      <h1>How to Scale a Service for Spiky Traffic</h1>
+      <p class="dek">
+        Spiky traffic is not just a bigger traffic number. It is a timing problem, a forecasting problem,
+        an autoscaling problem, and a descaling problem.
+      </p>
+      <div class="meta-row">
+        <span class="meta-pill">By Jay Tiwari</span>
+        <span class="meta-pill">System design</span>
+        <span class="meta-pill">8 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article class="article-shell">
+      <div class="article-content">
+        <p class="intro">
+          Most teams think about spiky traffic too late. They wait for CPU to rise, latency to climb, queues
+          to back up, or customers to complain. By then the system is already in a defensive posture.
+        </p>
+
+        <p>Good scaling strategy starts before the spike arrives.</p>
+        <p>
+          A service that handles sudden traffic well usually does not rely on one magic autoscaling rule. It
+          combines multiple signals: known schedules, business forecasts, external events, historical
+          patterns, and live system metrics.
+        </p>
+        <p>
+          The goal is simple: add capacity early enough to protect customers, and remove it carefully enough
+          to avoid waste or instability.
+        </p>
+
+        <div class="callout">
+          <p>Scaling for spikes is not only about scaling up. It is about knowing when, why, how much, and when to scale back down.</p>
+        </div>
+
+        <figure class="drawn-picture" aria-label="Traffic spike curve with capacity buffer">
+          <svg viewBox="0 0 900 360" role="img">
+            <rect x="0" y="0" width="900" height="360" fill="#ffffff" />
+            <rect x="34" y="42" width="832" height="246" rx="18" fill="#f7fbff" stroke="#dbe7f4" />
+            <text x="54" y="78" class="svg-title">Spike shape matters more than peak alone</text>
+            <text x="54" y="105" class="svg-label">Traffic can rise faster than reactive capacity if you wait too long.</text>
+
+            <line x1="84" y1="252" x2="820" y2="252" stroke="#9fb2c8" stroke-width="2" />
+            <line x1="84" y1="132" x2="84" y2="252" stroke="#9fb2c8" stroke-width="2" />
+
+            <path d="M84 236 C180 234, 238 230, 300 220 C350 208, 382 178, 420 132 C455 88, 490 82, 530 128 C575 180, 640 220, 820 232"
+              fill="none" stroke="#ff6a00" stroke-width="8" stroke-linecap="round" />
+            <path d="M84 220 C220 218, 315 210, 372 188 C430 165, 510 158, 588 176 C675 196, 742 212, 820 214"
+              fill="none" stroke="#1f6fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="12 12" />
+
+            <circle cx="422" cy="132" r="9" fill="#ff6a00" />
+            <circle cx="374" cy="188" r="8" fill="#1f6fff" />
+            <line x1="422" y1="132" x2="422" y2="104" stroke="#ff6a00" stroke-width="2" />
+            <line x1="374" y1="188" x2="374" y2="154" stroke="#1f6fff" stroke-width="2" />
+
+            <text x="438" y="108" class="svg-small">actual traffic spike</text>
+            <text x="226" y="155" class="svg-small">capacity must move early</text>
+
+            <rect x="610" y="74" width="178" height="70" rx="14" fill="#ffffff" stroke="#cde7ff" />
+            <circle cx="636" cy="99" r="6" fill="#ff6a00" />
+            <text x="650" y="104" class="svg-small">traffic demand</text>
+            <circle cx="636" cy="122" r="6" fill="#1f6fff" />
+            <text x="650" y="127" class="svg-small">available capacity</text>
+
+            <text x="94" y="276" class="svg-small">before event</text>
+            <text x="388" y="276" class="svg-small">spike window</text>
+            <text x="704" y="276" class="svg-small">after spike</text>
+          </svg>
+          <figcaption class="picture-caption">
+            A spike is dangerous when the traffic curve moves faster than your capacity curve. Scheduled,
+            forecasted, and predictive scaling are ways to move capacity before the sharpest part of the curve.
+          </figcaption>
+        </figure>
+
+        <figure class="scaling-visual" aria-label="Four ways to scale for spiky traffic">
+          <div class="visual-header">
+            <strong>Four scaling motions for spiky traffic</strong>
+          </div>
+          <div class="visual-body">
+            <div class="strategy-grid">
+              <div class="strategy-card">
+                <small>Scheduled</small>
+                <strong>Known events</strong>
+                <span>Scale before planned launches, sales, campaigns, livestreams, or batch windows.</span>
+              </div>
+              <div class="strategy-card">
+                <small>Forecast-informed</small>
+                <strong>External signals</strong>
+                <span>Use news, event calendars, editorial schedules, and business inputs to estimate demand.</span>
+              </div>
+              <div class="strategy-card">
+                <small>Reactive</small>
+                <strong>Live autoscaling</strong>
+                <span>Respond to traffic growth using request rate, latency, saturation, and queue depth.</span>
+              </div>
+              <div class="strategy-card">
+                <small>Predictive</small>
+                <strong>Historical patterns</strong>
+                <span>Pre-scale from last year, last month, last week, or same-hour workload behavior.</span>
+              </div>
+            </div>
+            <figcaption>
+              A mature system uses more than one scaling motion because different spikes announce themselves
+              in different ways.
+            </figcaption>
+          </div>
+        </figure>
+
+        <div class="section-rule"></div>
+        <h2>1. Understand the Shape of the Spike</h2>
+        <p>Before choosing a scaling strategy, understand what kind of spike you are dealing with.</p>
+        <p>Important questions include:</p>
+        <ul>
+          <li>Is the spike predictable or surprising?</li>
+          <li>Does it rise slowly or almost instantly?</li>
+          <li>How long does it last?</li>
+          <li>Is it read-heavy, write-heavy, or both?</li>
+          <li>Which dependency becomes the bottleneck first?</li>
+          <li>Does the spike happen globally or in one region?</li>
+          <li>Can some work be delayed, queued, cached, or degraded?</li>
+        </ul>
+        <p>Two spikes with the same peak traffic can require very different designs.</p>
+        <p>
+          A product launch might have a known start time. A breaking news event might have a noisy external
+          signal. A holiday shopping day might repeat every year. A viral social post might be detected only
+          after traffic has already started climbing.
+        </p>
+        <p>The best scaling plan starts by classifying the spike.</p>
+
+        <div class="section-rule"></div>
+        <h2>2. Scheduled Scaling: Scale Before Known Events</h2>
+        <p>Scheduled scaling is the simplest and most reliable strategy when the event is known in advance.</p>
+        <p>Use it for:</p>
+        <ul>
+          <li>marketing campaigns</li>
+          <li>product launches</li>
+          <li>sales events</li>
+          <li>livestreams or sports events</li>
+          <li>seasonal traffic windows</li>
+          <li>batch processing jobs</li>
+          <li>known partner integrations or data drops</li>
+        </ul>
+        <p>The mistake is waiting until the event begins.</p>
+        <p>
+          If the event starts at 9:00 AM, capacity should not start increasing at 9:00 AM. Scale early enough
+          to account for instance warmup, container placement, cache warmup, connection pool growth, load
+          balancer registration, and dependency readiness.
+        </p>
+        <p>A good schedule includes:</p>
+        <ol>
+          <li>pre-scale start time</li>
+          <li>target capacity</li>
+          <li>minimum safety buffer</li>
+          <li>dependency capacity checks</li>
+          <li>descale start time</li>
+          <li>rollback plan if traffic exceeds the plan</li>
+        </ol>
+        <p>Scheduled scaling is not glamorous, but it is practical. If you know demand is coming, do not force the system to discover it the hard way.</p>
+
+        <figure class="drawn-picture" aria-label="Scheduled pre-scaling and descaling window">
+          <svg viewBox="0 0 900 360" role="img">
+            <rect x="0" y="0" width="900" height="360" fill="#ffffff" />
+            <rect x="34" y="42" width="832" height="246" rx="18" fill="#fffaf3" stroke="#f4d7aa" />
+            <text x="54" y="78" class="svg-title">Scheduled scaling needs a warmup and cooldown plan</text>
+            <text x="54" y="105" class="svg-label">The event time is not the scaling start time.</text>
+
+            <line x1="86" y1="252" x2="818" y2="252" stroke="#9fb2c8" stroke-width="2" />
+            <line x1="120" y1="252" x2="120" y2="130" stroke="#dbe7f4" stroke-width="2" />
+            <line x1="330" y1="252" x2="330" y2="130" stroke="#ff6a00" stroke-width="4" />
+            <line x1="640" y1="252" x2="640" y2="130" stroke="#ff6a00" stroke-width="4" />
+            <line x1="784" y1="252" x2="784" y2="130" stroke="#dbe7f4" stroke-width="2" />
+
+            <path d="M120 222 L225 222 L225 178 L330 178 L330 142 L640 142 L640 178 L725 178 L725 220 L784 220"
+              fill="none" stroke="#1f6fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+            <path d="M120 230 C238 230, 280 214, 330 172 C385 126, 500 112, 640 156 C690 172, 738 208, 784 226"
+              fill="none" stroke="#ff6a00" stroke-width="6" stroke-linecap="round" />
+
+            <rect x="202" y="92" width="122" height="42" rx="12" fill="#ffffff" stroke="#cde7ff" />
+            <text x="219" y="118" class="svg-small">pre-scale</text>
+
+            <rect x="388" y="92" width="198" height="42" rx="12" fill="#09111f" />
+            <text x="417" y="118" fill="#ffffff" font-size="12" font-weight="900">event window</text>
+
+            <rect x="666" y="92" width="126" height="42" rx="12" fill="#ffffff" stroke="#cde7ff" />
+            <text x="686" y="118" class="svg-small">descale</text>
+
+            <text x="107" y="278" class="svg-small">normal</text>
+            <text x="302" y="278" class="svg-small">start</text>
+            <text x="615" y="278" class="svg-small">end</text>
+            <text x="756" y="278" class="svg-small">stable</text>
+          </svg>
+          <figcaption class="picture-caption">
+            For planned events, capacity should rise before the event starts and fall only after the system
+            confirms that traffic, queues, and dependencies are stable.
+          </figcaption>
+        </figure>
+
+        <div class="section-rule"></div>
+        <h2>3. Forecast-Informed Scaling: Use External Signals</h2>
+        <p>Some traffic spikes are not scheduled by your team, but they are still forecastable.</p>
+        <p>
+          For example, a news app, ads platform, video service, commerce platform, or social product may see
+          demand change because of major news, sports events, public announcements, weather, entertainment
+          releases, or financial events.
+        </p>
+        <p>This is where external sources can help.</p>
+        <p>Useful inputs might include:</p>
+        <ul>
+          <li>news agency feeds and breaking-news signals</li>
+          <li>publisher or editorial calendars</li>
+          <li>sports schedules</li>
+          <li>marketing and launch calendars</li>
+          <li>social trend signals</li>
+          <li>weather alerts</li>
+          <li>partner traffic forecasts</li>
+          <li>business-team demand estimates</li>
+        </ul>
+        <p>
+          The key is not to blindly trust every signal. Treat each signal as a probability. A breaking news
+          alert may not tell you exact traffic, but it can tell you that the risk of a spike has increased.
+        </p>
+
+        <figure class="scaling-visual" aria-label="Forecast-informed scaling pipeline">
+          <div class="visual-header">
+            <strong>Forecast-informed scaling pipeline</strong>
+          </div>
+          <div class="visual-body">
+            <div class="pipeline-grid">
+              <div class="signal-card">
+                <small>Signals</small>
+                <strong>Events and news</strong>
+                <span>News feeds, schedules, campaigns, trends, partner forecasts.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="signal-card">
+                <small>Forecast</small>
+                <strong>Traffic estimate</strong>
+                <span>Convert signals into expected uplift and confidence bands.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="signal-card">
+                <small>Plan</small>
+                <strong>Capacity target</strong>
+                <span>Choose service, cache, queue, database, and dependency capacity.</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="signal-card">
+                <small>Control</small>
+                <strong>Scale and observe</strong>
+                <span>Apply capacity early, then compare forecast with live traffic.</span>
+              </div>
+            </div>
+            <figcaption>
+              Forecasting does not need to be perfect to be useful. Even an approximate signal can buy time
+              before live traffic overwhelms the system.
+            </figcaption>
+          </div>
+        </figure>
+
+        <p>
+          In practice, this can be implemented as a capacity planning service or workflow that consumes
+          signals, estimates demand, and creates scaling recommendations or scaling actions.
+        </p>
+        <p>For high-risk systems, I prefer human review for large forecasted changes and automatic action for low-risk capacity adjustments.</p>
+
+        <div class="section-rule"></div>
+        <h2>4. Reactive Autoscaling: Respond to Live Traffic</h2>
+        <p>Even with schedules and forecasts, some spikes will surprise you.</p>
+        <p>That is where reactive autoscaling matters.</p>
+        <p>Common scaling metrics include:</p>
+        <ul>
+          <li>request rate</li>
+          <li>CPU and memory utilization</li>
+          <li>p95 or p99 latency</li>
+          <li>active connections</li>
+          <li>queue depth</li>
+          <li>consumer lag</li>
+          <li>error rate</li>
+          <li>dependency saturation</li>
+        </ul>
+        <p>Be careful with CPU-only autoscaling.</p>
+        <p>
+          CPU is often a lagging signal. By the time CPU is high, users may already be seeing latency. For
+          traffic-facing services, request rate, queue depth, or concurrency can be better leading indicators.
+        </p>
+        <p>A good autoscaling policy should define:</p>
+        <ul>
+          <li>scale-out thresholds</li>
+          <li>scale-in thresholds</li>
+          <li>cooldown periods</li>
+          <li>maximum capacity</li>
+          <li>minimum healthy capacity</li>
+          <li>warmup time</li>
+          <li>how to avoid oscillation</li>
+        </ul>
+        <p>
+          The system should scale out aggressively enough to protect customers, but not so aggressively that
+          it creates instability or overwhelms downstream dependencies.
+        </p>
+
+        <div class="quote">
+          Autoscaling one layer can break another layer if the downstream dependency cannot absorb the new load.
+          <span>Scale the path, not just the fleet.</span>
+        </div>
+
+        <div class="section-rule"></div>
+        <h2>5. Predictive Scaling: Use Historical Workload Patterns</h2>
+        <p>Predictive scaling uses historical workload data to scale before traffic arrives.</p>
+        <p>This works well when traffic has seasonality:</p>
+        <ul>
+          <li>same hour of day</li>
+          <li>same day of week</li>
+          <li>same day of month</li>
+          <li>previous month behavior</li>
+          <li>previous year events</li>
+          <li>holiday or shopping-season patterns</li>
+          <li>known business cycles</li>
+        </ul>
+        <p>
+          For example, if traffic always rises on Monday morning, at month-end, during annual sale periods,
+          or around a recurring event, the system should not act surprised every time.
+        </p>
+
+        <figure class="scaling-visual" aria-label="Predictive scaling timeline">
+          <div class="visual-header">
+            <strong>Predictive scaling uses history to get ahead of demand</strong>
+          </div>
+          <div class="visual-body">
+            <div class="timeline-grid">
+              <div class="timeline-card">
+                <small>History</small>
+                <strong>Last year</strong>
+                <span>Annual events, holidays, launches, seasonal demand.</span>
+              </div>
+              <div class="timeline-card">
+                <small>Recent trend</small>
+                <strong>Last month</strong>
+                <span>Growth, drift, marketing effects, product changes.</span>
+              </div>
+              <div class="timeline-card">
+                <small>Pattern</small>
+                <strong>Same day</strong>
+                <span>Weekday behavior, daily peaks, regional traffic windows.</span>
+              </div>
+              <div class="timeline-card">
+                <small>Forecast</small>
+                <strong>Next window</strong>
+                <span>Expected demand with safety margin and confidence.</span>
+              </div>
+              <div class="timeline-card">
+                <small>Action</small>
+                <strong>Pre-scale</strong>
+                <span>Apply capacity before users arrive, then monitor reality.</span>
+              </div>
+            </div>
+            <figcaption>
+              Predictive scaling should adjust for recent growth. Last year's peak is useful, but only after
+              accounting for how the service, users, and product have changed.
+            </figcaption>
+          </div>
+        </figure>
+
+        <p>Predictive scaling does not require a complicated model at first.</p>
+        <p>A simple approach can start with:</p>
+        <ol>
+          <li>baseline traffic for the same day and hour</li>
+          <li>growth factor from recent weeks or months</li>
+          <li>event multiplier for known special days</li>
+          <li>safety buffer for forecast error</li>
+          <li>real-time correction from live metrics</li>
+        </ol>
+        <p>
+          More advanced systems can use machine learning models, but the engineering discipline matters more
+          than the model name: measure forecast accuracy, track false positives, and always cap risk.
+        </p>
+
+        <div class="section-rule"></div>
+        <h2>6. Protect Dependencies Before You Add More Traffic</h2>
+        <p>Scaling the service tier is often the easy part.</p>
+        <p>The harder question is whether the rest of the path can handle the spike.</p>
+        <p>Check:</p>
+        <ul>
+          <li>database read and write capacity</li>
+          <li>cache hit rate and cache memory</li>
+          <li>connection pool sizes</li>
+          <li>queue throughput and retention</li>
+          <li>rate limits on downstream services</li>
+          <li>load balancer limits</li>
+          <li>object storage request rates</li>
+          <li>CDN cacheability</li>
+          <li>observability and alerting volume</li>
+        </ul>
+        <p>
+          If the application fleet doubles but the database cannot handle the extra connections, you have not
+          scaled the system. You have moved the bottleneck.
+        </p>
+        <p>Good spike planning includes dependency owners. The full request path has to be ready.</p>
+
+        <div class="section-rule"></div>
+        <h2>7. Use Graceful Degradation</h2>
+        <p>Not all work is equally important during a spike.</p>
+        <p>When traffic rises sharply, protect the core user experience first.</p>
+        <p>You can often degrade or delay:</p>
+        <ul>
+          <li>recommendations</li>
+          <li>analytics writes</li>
+          <li>non-critical notifications</li>
+          <li>background refresh jobs</li>
+          <li>expensive personalization</li>
+          <li>batch exports</li>
+          <li>secondary enrichment calls</li>
+        </ul>
+        <p>Useful patterns include:</p>
+        <ul>
+          <li>feature flags</li>
+          <li>circuit breakers</li>
+          <li>rate limiting</li>
+          <li>load shedding</li>
+          <li>queues for asynchronous work</li>
+          <li>cached or stale-but-safe responses</li>
+          <li>fallback experiences</li>
+        </ul>
+        <p>Graceful degradation is not giving up. It is choosing what must survive first.</p>
+
+        <div class="section-rule"></div>
+        <h2>8. Descaling: Scaling Down Is Part of the Design</h2>
+        <p>Teams often talk about scaling up but forget to design scaling down.</p>
+        <p>That creates waste and sometimes instability.</p>
+        <p>Descaling should happen when:</p>
+        <ul>
+          <li>traffic drops below a safe threshold</li>
+          <li>the scheduled event window ends</li>
+          <li>the forecasted risk period expires</li>
+          <li>predictive scaling no longer expects elevated demand</li>
+          <li>queues have drained</li>
+          <li>latency and error rates remain healthy</li>
+        </ul>
+
+        <figure class="scaling-visual" aria-label="Descaling decision model">
+          <div class="visual-header">
+            <strong>Descale carefully after the spike</strong>
+          </div>
+          <div class="visual-body">
+            <div class="descale-grid">
+              <div class="descale-card">
+                <small>Confirm</small>
+                <strong>Demand is actually lower</strong>
+                <span>Traffic, queues, latency, errors, and dependencies all look stable.</span>
+              </div>
+              <div class="descale-card">
+                <small>Reduce</small>
+                <strong>Drain before removal</strong>
+                <span>Remove capacity gradually and let in-flight work finish cleanly.</span>
+              </div>
+              <div class="descale-card">
+                <small>Protect</small>
+                <strong>Keep a safety floor</strong>
+                <span>Maintain enough buffer for aftershocks, retries, and delayed traffic.</span>
+              </div>
+            </div>
+            <figcaption>
+              Descaling too fast can create a second incident. Scale down more slowly than you scale up.
+            </figcaption>
+          </div>
+        </figure>
+
+        <p>Good descaling uses guardrails:</p>
+        <ul>
+          <li>minimum capacity floors</li>
+          <li>slow scale-in steps</li>
+          <li>longer scale-in cooldowns than scale-out cooldowns</li>
+          <li>connection draining</li>
+          <li>queue drain checks</li>
+          <li>post-event monitoring windows</li>
+        </ul>
+        <p>
+          If scheduled scaling ends at 11:00 AM but traffic remains high until 11:30 AM, the live system
+          should win over the calendar. Schedules and forecasts should guide scaling, not blindly override
+          reality.
+        </p>
+
+        <div class="section-rule"></div>
+        <h2>9. Build the Control Loop</h2>
+        <p>The strongest architecture is a control loop, not a single rule.</p>
+        <p>A practical loop looks like this:</p>
+        <ol>
+          <li>Collect scheduled events, forecasts, historical patterns, and live metrics.</li>
+          <li>Estimate expected demand and confidence.</li>
+          <li>Translate demand into capacity targets for each tier.</li>
+          <li>Apply scaling actions with safety limits.</li>
+          <li>Observe real traffic and system health.</li>
+          <li>Correct the plan as reality changes.</li>
+          <li>Descale gradually when the elevated window is over.</li>
+        </ol>
+
+        <figure class="drawn-picture" aria-label="Scaling control loop picture">
+          <svg viewBox="0 0 900 420" role="img">
+            <rect x="0" y="0" width="900" height="420" fill="#ffffff" />
+            <rect x="34" y="42" width="832" height="312" rx="18" fill="#f7fbff" stroke="#dbe7f4" />
+            <text x="54" y="78" class="svg-title">Scaling works best as a closed control loop</text>
+            <text x="54" y="105" class="svg-label">Forecasts start the plan. Live metrics correct it.</text>
+
+            <circle cx="450" cy="205" r="78" fill="#09111f" />
+            <text x="399" y="198" fill="#ffffff" font-size="17" font-weight="900">capacity</text>
+            <text x="407" y="222" fill="#a7f3d0" font-size="13" font-weight="900">controller</text>
+
+            <rect x="84" y="150" width="150" height="92" rx="18" fill="#ffffff" stroke="#cde7ff" />
+            <text x="114" y="184" class="svg-label">Signals</text>
+            <text x="105" y="208" class="svg-small">schedule, news,</text>
+            <text x="105" y="226" class="svg-small">history, metrics</text>
+
+            <rect x="666" y="150" width="150" height="92" rx="18" fill="#ffffff" stroke="#cde7ff" />
+            <text x="704" y="184" class="svg-label">Actions</text>
+            <text x="692" y="208" class="svg-small">scale up, hold,</text>
+            <text x="700" y="226" class="svg-small">scale down</text>
+
+            <rect x="330" y="296" width="240" height="42" rx="18" fill="#ffffff" stroke="#cde7ff" />
+            <text x="357" y="322" class="svg-small">observe health and correct the plan</text>
+
+            <path d="M234 196 C286 196, 330 198, 370 204" fill="none" stroke="#1f6fff" stroke-width="6" stroke-linecap="round" />
+            <path d="M530 204 C574 198, 618 196, 666 196" fill="none" stroke="#ff6a00" stroke-width="6" stroke-linecap="round" />
+            <path d="M740 242 C702 318, 590 342, 510 326" fill="none" stroke="#00a99d" stroke-width="6" stroke-linecap="round" />
+            <path d="M390 326 C296 340, 190 306, 158 242" fill="none" stroke="#f6b73c" stroke-width="6" stroke-linecap="round" />
+
+            <polygon points="368,204 350,194 352,214" fill="#1f6fff" />
+            <polygon points="666,196 647,187 649,207" fill="#ff6a00" />
+            <polygon points="510,326 530,318 528,338" fill="#00a99d" />
+            <polygon points="158,242 156,262 174,251" fill="#f6b73c" />
+          </svg>
+          <figcaption class="picture-caption">
+            A scaling system should continuously compare expectation with reality. The controller uses
+            schedules and predictions to act early, then uses live health signals to correct, hold, or descale.
+          </figcaption>
+        </figure>
+
+        <p>
+          Over time, the system should learn from its own misses. If the forecast overestimated traffic,
+          reduce the next multiplier. If autoscaling reacted too late, move to a leading metric or pre-scale
+          earlier. If descaling caused errors, slow it down.
+        </p>
+
+        <div class="section-rule"></div>
+        <h2>10. What I Would Say in a System Design Interview</h2>
+        <p>If asked how to scale for spiky traffic, I would structure the answer like this:</p>
+        <ol>
+          <li>First, classify the spike: scheduled, forecastable, reactive, or historical.</li>
+          <li>Then, protect the critical user path and identify the first bottleneck.</li>
+          <li>Use scheduled scaling for known events.</li>
+          <li>Use external signals and business forecasts for likely events.</li>
+          <li>Use predictive scaling for recurring historical patterns.</li>
+          <li>Use reactive autoscaling for surprise traffic.</li>
+          <li>Scale dependencies, not just compute.</li>
+          <li>Add graceful degradation for non-critical work.</li>
+          <li>Descale gradually after traffic, schedules, and forecasts confirm the spike is over.</li>
+        </ol>
+        <p>That answer shows practical judgment because it covers both customer protection and cost control.</p>
+
+        <div class="final-thoughts">
+          <h2>Final Thoughts</h2>
+          <p>Spiky traffic exposes the difference between capacity and readiness.</p>
+          <p>You can have autoscaling and still fail if the system reacts too late.</p>
+          <p>You can have forecasts and still fail if dependency capacity is ignored.</p>
+          <p>You can scale up successfully and still waste money if you never scale down.</p>
+          <p>
+            The strongest systems combine scheduled scaling, forecast-informed planning, reactive
+            autoscaling, predictive scaling, and careful descaling.
+          </p>
+          <p><strong>The goal is not infinite capacity. The goal is controlled elasticity.</strong></p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <p>
+          <strong>Want to practice this as a system design question?</strong>
+          Book a 1:1 mock interview or architecture coaching session with Jay.
+        </p>
+        <a href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book a session</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Jay Tiwari · System design, engineering leadership, and career growth
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
