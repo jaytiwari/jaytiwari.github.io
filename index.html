@@ -526,6 +526,109 @@
     position: absolute;
   }
 
+  .reference-group {
+    margin-top: 28px;
+  }
+
+  .reference-heading {
+    align-items: end;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+  }
+
+  .reference-heading h3 {
+    color: var(--ink);
+    font-size: 22px;
+    letter-spacing: 0;
+  }
+
+  .reference-heading span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .book-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+
+  .book-card {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 255, 0.94));
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--blue);
+    border-radius: 8px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    color: inherit;
+    display: grid;
+    gap: 12px;
+    grid-template-rows: auto 1fr;
+    min-height: 100%;
+    padding: 14px;
+    text-decoration: none;
+    transition: all 0.24s ease;
+  }
+
+  .book-card:nth-child(2n) {
+    border-top-color: var(--teal);
+  }
+
+  .book-card:nth-child(3n) {
+    border-top-color: var(--accent);
+  }
+
+  .book-card:hover {
+    box-shadow: 0 20px 48px rgba(31, 111, 255, 0.16);
+    transform: translateY(-4px);
+  }
+
+  .book-cover {
+    align-items: center;
+    aspect-ratio: 3 / 4;
+    background: #eef5ff;
+    border: 1px solid #dbe7f4;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .book-cover img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+  }
+
+  .book-title {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1.35;
+    margin-bottom: 5px;
+  }
+
+  .book-author {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .book-link-label {
+    color: var(--blue);
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 900;
+    margin-top: 10px;
+  }
+
   /* ABOUT BRANDING */
   .about-lead {
     display: grid;
@@ -1147,60 +1250,165 @@
           Books, tools, and resources I often recommend to candidates and mentees.
         </p>
 
-        <div class="card-list">
-          <article class="card">
-            <div class="card-title">System design & architecture</div>
-            <div class="card-meta">Books & resources</div>
-            <p>
-              Classic system design books, curated articles, and question banks that help you build strong intuition,
-              not just memorise templates.
-            </p>
-            <div class="tag-row">
-              <span class="tag">Scalability</span>
-              <span class="tag">Distributed systems</span>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-title">DSA & coding interviews</div>
-            <div class="card-meta">Practice platforms</div>
-            <p>
-              A short list of platforms and problem sets I recommend for targeted practice rather than endless grinding.
-            </p>
-            <div class="tag-row">
-              <span class="tag">Patterns</span>
-              <span class="tag">Focused lists</span>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-title">Career & communication</div>
-            <div class="card-meta">Books & talks</div>
-            <p>
-              Resources that improve how you communicate your work, negotiate offers, and make better long‑term career decisions.
-            </p>
-            <div class="tag-row">
-              <span class="tag">Storytelling</span>
-              <span class="tag">Negotiation</span>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="card-title">Tools I like</div>
-            <div class="card-meta">Everyday stack</div>
-            <p>
-              A small collection of tools for notes, diagrams, and tracking interview prep that keeps things simple and effective.
-            </p>
-            <div class="tag-row">
-              <span class="tag">Notes</span>
-              <span class="tag">Diagrams</span>
-              <span class="tag">Planning</span>
-            </div>
-          </article>
+        <div class="reference-group">
+          <div class="reference-heading">
+            <h3>System Design</h3>
+            <span>Architecture, scale, storage, and distributed systems</span>
+          </div>
+          <div class="book-grid">
+            <a class="book-card" href="https://www.amazon.com/dp/B08CMF2CQF" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/B08CMF2CQF.01._SX300_.jpg" alt="System Design Interview volume 1 book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">System Design Interview - An Insider's Guide</div>
+                <div class="book-author">Alex Xu</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1736049119" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1736049119.01._SX300_.jpg" alt="System Design Interview volume 2 book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">System Design Interview - Volume 2</div>
+                <div class="book-author">Alex Xu and Sahn Lam</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1449373321" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1449373321.01._SX300_.jpg" alt="Designing Data-Intensive Applications book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Designing Data-Intensive Applications</div>
+                <div class="book-author">Martin Kleppmann</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1492040347" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1492040347.01._SX300_.jpg" alt="Database Internals book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Database Internals</div>
+                <div class="book-author">Alex Petrov</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1492086894" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1492086894.01._SX300_.jpg" alt="Software Architecture The Hard Parts book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Software Architecture: The Hard Parts</div>
+                <div class="book-author">Neal Ford, Mark Richards, Pramod Sadalage, and Zhamak Dehghani</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+          </div>
         </div>
 
-        <p style="margin-top: 12px;">
-          I’ll keep this section updated as I discover new resources that are genuinely helpful, not just popular.
+        <div class="reference-group">
+          <div class="reference-heading">
+            <h3>Engineering</h3>
+            <span>Craft, influence, Java, and hard conversations</span>
+          </div>
+          <div class="book-grid">
+            <a class="book-card" href="https://www.amazon.com/dp/0132350882" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/0132350882.01._SX300_.jpg" alt="Clean Code book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Clean Code</div>
+                <div class="book-author">Robert C. Martin</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1736417916" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1736417916.01._SX300_.jpg" alt="Staff Engineer book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Staff Engineer</div>
+                <div class="book-author">Will Larson</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/0134685997" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/0134685997.01._SX300_.jpg" alt="Effective Java book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Effective Java</div>
+                <div class="book-author">Joshua Bloch</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1260474186" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1260474186.01._SX300_.jpg" alt="Crucial Conversations book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Crucial Conversations</div>
+                <div class="book-author">Joseph Grenny, Kerry Patterson, Ron McMillan, Al Switzler, and Emily Gregory</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="reference-group">
+          <div class="reference-heading">
+            <h3>AI and ML</h3>
+            <span>Production ML, LLMs, AI engineering, and prompting</span>
+          </div>
+          <div class="book-grid">
+            <a class="book-card" href="https://www.amazon.com/dp/1098115783" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1098115783.01._SX300_.jpg" alt="Machine Learning Design Patterns book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Machine Learning Design Patterns</div>
+                <div class="book-author">Valliappa Lakshmanan, Sara Robinson, and Michael Munn</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1098150961" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1098150961.01._SX300_.jpg" alt="Hands-On Large Language Models book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Hands-On Large Language Models</div>
+                <div class="book-author">Jay Alammar and Maarten Grootendorst</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1098166302" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1098166302.01._SX300_.jpg" alt="AI Engineering book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">AI Engineering</div>
+                <div class="book-author">Chip Huyen</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+            <a class="book-card" href="https://www.amazon.com/dp/1098156153" target="_blank" rel="noopener noreferrer">
+              <div class="book-cover">
+                <img src="https://images-na.ssl-images-amazon.com/images/P/1098156153.01._SX300_.jpg" alt="Prompt Engineering for LLMs book cover" loading="lazy" />
+              </div>
+              <div>
+                <div class="book-title">Prompt Engineering for LLMs</div>
+                <div class="book-author">John Berryman and Albert Ziegler</div>
+                <span class="book-link-label">View on Amazon</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <p style="margin-top: 18px;">
+          These links point to Amazon product pages for now and can be swapped with affiliate URLs later.
         </p>
       </section>
     </main>
