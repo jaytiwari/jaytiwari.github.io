@@ -483,10 +483,47 @@
     padding: 8px 11px;
   }
 
+  .pill {
+    appearance: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .pill:hover {
+    border-color: rgba(31, 111, 255, 0.42);
+    box-shadow: 0 10px 26px rgba(31, 111, 255, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .pill:focus-visible {
+    outline: 3px solid rgba(255, 106, 0, 0.28);
+    outline-offset: 3px;
+  }
+
   .pill.highlight {
     background: linear-gradient(90deg, var(--accent), var(--gold));
     border-color: transparent;
+    box-shadow: 0 12px 28px rgba(255, 106, 0, 0.26);
     color: #fff;
+  }
+
+  .mentorship-card {
+    scroll-margin-top: 96px;
+  }
+
+  .mentorship-card.is-active {
+    border-color: rgba(255, 106, 0, 0.58);
+    box-shadow: 0 22px 54px rgba(255, 106, 0, 0.18);
+    transform: translateY(-4px);
+  }
+
+  .mentorship-card.is-active::after {
+    background: linear-gradient(115deg, rgba(255, 106, 0, 0.12), rgba(31, 111, 255, 0.08), transparent 44%);
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
   }
 
   /* ABOUT BRANDING */
@@ -1015,70 +1052,91 @@
         </p>
 
         <div class="pill-row">
-          <span class="pill highlight">System design mock</span>
-          <span class="pill">Resume review</span>
-          <span class="pill">Interview readiness</span>
-          <span class="pill">Career guidance</span>
+          <button class="pill highlight" type="button" data-mentorship-target="system-design" aria-pressed="true">System design mock</button>
+          <button class="pill" type="button" data-mentorship-target="resume-review" aria-pressed="false">Resume review</button>
+          <button class="pill" type="button" data-mentorship-target="interview-readiness" aria-pressed="false">Interview readiness</button>
+          <button class="pill" type="button" data-mentorship-target="career-guidance" aria-pressed="false">Career guidance</button>
         </div>
 
         <div class="card-list">
-          <article class="card">
+          <article class="card mentorship-card is-active" data-mentorship-card="system-design">
             <div class="card-title">System design mock interview</div>
             <div class="card-meta">60 minutes • video call</div>
             <p>
-              We pick a real FAANG‑style system design question, go through it end‑to‑end, and then spend
-              time on targeted feedback: structure, depth, trade‑offs, and communication.
+              We run a real FAANG-style design prompt end to end. I watch how you clarify requirements,
+              estimate scale, draw the architecture, choose data stores, and discuss bottlenecks.
+            </p>
+            <p>
+              I give feedback on structure, trade-offs, depth, and communication, then recommend exactly
+              what to practice next so your answer sounds like engineering judgment, not memorized diagrams.
             </p>
             <div class="tag-row">
-              <span class="tag">Senior / Mid-level SDE</span>
-              <span class="tag">FAANG / Tier‑1 product companies</span>
+              <span class="tag">Architecture structure</span>
+              <span class="tag">Trade-off clarity</span>
+              <span class="tag">Senior signal</span>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card mentorship-card" data-mentorship-card="resume-review">
             <div class="card-title">Resume review</div>
             <div class="card-meta">30 minutes • async or call</div>
             <p>
-              We go through your resume line by line to highlight impact, reduce fluff, and align it with the
-              roles and companies you’re targeting.
+              We review your resume like a hiring manager would scan it: top-third positioning, role fit,
+              scope, measurable impact, leadership signal, and whether each bullet earns its space.
+            </p>
+            <p>
+              I point out noise, missing context, weak bullets, and places where your real impact is hidden.
+              You leave with sharper rewrites and a clearer story for recruiters, managers, and interviewers.
             </p>
             <div class="tag-row">
-              <span class="tag">ATS-friendly</span>
-              <span class="tag">Outcome focused</span>
+              <span class="tag">Impact bullets</span>
+              <span class="tag">Scope and signal</span>
+              <span class="tag">Hiring-manager lens</span>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card mentorship-card" data-mentorship-card="interview-readiness">
             <div class="card-title">Interview readiness & prep plan</div>
             <div class="card-meta">45 minutes • video call</div>
             <p>
-              We map your current level, upcoming timelines, and weak areas, then create a focused plan across
-              DSA, system design, and behavioral interviews.
+              We diagnose where you are today across coding, system design, behavioral stories, resume
+              positioning, and timeline pressure. Then we turn that into a practical weekly plan.
+            </p>
+            <p>
+              I look for the highest-leverage gaps: missing patterns, unclear communication, weak examples,
+              or poor sequencing. The goal is fewer random problems and more focused preparation.
             </p>
             <div class="tag-row">
-              <span class="tag">Custom roadmap</span>
-              <span class="tag">Accountability</span>
+              <span class="tag">Prep roadmap</span>
+              <span class="tag">Gap diagnosis</span>
+              <span class="tag">Focused practice</span>
             </div>
           </article>
 
-          <article class="card">
-            <div class="card-title">Ask me anything (AMA)</div>
+          <article class="card mentorship-card" data-mentorship-card="career-guidance">
+            <div class="card-title">Career guidance / AMA</div>
             <div class="card-meta">20 minutes • flexible</div>
             <p>
-              Use this for quick decisions: offer choices, career moves, switching stacks, or how to approach
-              a specific interview or opportunity.
+              Use this for high-signal decisions: role changes, offer choices, manager conversations,
+              internal mobility, switching stacks, or how to approach a specific interview opportunity.
+            </p>
+            <p>
+              I help you separate emotion from options, look at second-order consequences, and choose a next
+              step that fits your long-term career direction instead of only the current pressure.
             </p>
             <div class="tag-row">
-              <span class="tag">Fast clarity</span>
-              <span class="tag">No fluff</span>
+              <span class="tag">Decision clarity</span>
+              <span class="tag">Career strategy</span>
+              <span class="tag">Next steps</span>
             </div>
           </article>
         </div>
 
         <p style="margin-top: 12px;">
-          To book a session, drop me a note at
-          <a href="mailto:your.email@example.com">your.email@example.com</a>
-          with a short summary of your background and what you want to focus on.
+          For now, please use
+          <a href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">topmate.io/jay_tiwari</a>
+          to book a session. We are working on building our own platform, and contributions, ideas, or
+          technical help are welcome.
         </p>
       </section>
 
@@ -1206,6 +1264,35 @@
     activateTab(tabFromHash());
     window.addEventListener("hashchange", () => activateTab(tabFromHash()));
     requestAnimationFrame(() => activateTab(tabFromHash()));
+
+    // Mentorship selector
+    const mentorshipButtons = document.querySelectorAll("[data-mentorship-target]");
+    const mentorshipCards = document.querySelectorAll("[data-mentorship-card]");
+
+    function activateMentorshipCard(target, shouldScroll = false) {
+      mentorshipButtons.forEach((btn) => {
+        const isActive = btn.dataset.mentorshipTarget === target;
+        btn.classList.toggle("highlight", isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+      });
+
+      mentorshipCards.forEach((card) => {
+        const isActive = card.dataset.mentorshipCard === target;
+        card.classList.toggle("is-active", isActive);
+
+        if (isActive && shouldScroll && window.matchMedia("(max-width: 700px)").matches) {
+          card.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+
+    mentorshipButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activateMentorshipCard(btn.dataset.mentorshipTarget, true);
+      });
+    });
+
+    activateMentorshipCard("system-design");
 
     // Current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
