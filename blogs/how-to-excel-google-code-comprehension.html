@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>How to Excel in Google's Code Comprehension Interview | Jay Tiwari</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Jay Tiwari breaks down how to excel in Google's Code Comprehension interview: reading unfamiliar code, working effectively with AI, validating output, and shipping clean fixes." />
+  <style>
+    :root {
+      --accent: #ff6a00;
+      --blue: #1f6fff;
+      --teal: #00a99d;
+      --gold: #f6b73c;
+      --ink: #09111f;
+      --text: #141a27;
+      --muted: #5f6b7a;
+      --border: #dbe7f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        linear-gradient(115deg, rgba(31, 111, 255, 0.08), transparent 30%),
+        linear-gradient(245deg, rgba(255, 106, 0, 0.1), transparent 34%),
+        linear-gradient(180deg, #f7fbff 0%, #fff8ef 48%, #f4fbff 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .progress {
+      background: rgba(9, 17, 31, 0.06);
+      height: 3px;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+    }
+
+    .progress > div {
+      background: linear-gradient(90deg, var(--blue), var(--teal), var(--accent), var(--gold));
+      height: 100%;
+      transform-origin: left center;
+      width: 100%;
+      transform: scaleX(0);
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 280px;
+      gap: 22px;
+      margin: 0 auto;
+      max-width: 1320px;
+      padding: 20px 18px 72px;
+    }
+
+    .side {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding-bottom: 20px;
+    }
+
+    .side-card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
+      padding: 14px;
+    }
+
+    .side-title {
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .nav-list,
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-list a,
+    .toc-list a {
+      border-radius: 10px;
+      color: var(--text);
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 10px 10px;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .toc-list a {
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 10px;
+      color: var(--muted);
+    }
+
+    .toc-list a[data-depth="3"] {
+      padding-left: 20px;
+      font-weight: 700;
+    }
+
+    .nav-list a:hover,
+    .toc-list a:hover {
+      background: rgba(31, 111, 255, 0.10);
+      color: var(--ink);
+    }
+
+    .nav-list a.is-active,
+    .toc-list a.is-active {
+      background: linear-gradient(90deg, rgba(255, 106, 0, 0.16), rgba(31, 111, 255, 0.10));
+      color: var(--ink);
+      border: 1px solid rgba(255, 106, 0, 0.24);
+    }
+
+    .main-col {
+      min-width: 0;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 80% 36%, rgba(0, 169, 157, 0.22), transparent 24%),
+        linear-gradient(90deg, rgba(9, 17, 31, 0.98), rgba(9, 17, 31, 0.88)),
+        url("../jay-tiwari-profile.jpeg");
+      background-position: center, center, 82% 42%;
+      background-size: cover;
+      color: #ffffff;
+      padding: 36px 6% 46px;
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      background-image:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%);
+      background-size: 42px 42px;
+      content: "";
+      inset: 0;
+      opacity: 0.42;
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .hero-inner {
+      max-width: 980px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      align-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      color: #f8fbff;
+      display: inline-flex;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 34px;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+
+    .eyebrow {
+      color: #a7f3d0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: clamp(42px, 7vw, 78px);
+      font-weight: 900;
+      letter-spacing: 0;
+      line-height: 0.98;
+      margin-bottom: 18px;
+      max-width: 940px;
+      overflow-wrap: anywhere;
+      text-shadow: 0 22px 46px rgba(0, 0, 0, 0.34);
+    }
+
+    .dek {
+      color: #d7e7f7;
+      font-size: 19px;
+      line-height: 1.65;
+      max-width: 820px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      color: #f8fbff;
+      display: inline-flex;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+    }
+
+    main {
+      margin: 0;
+      max-width: none;
+      padding: 0;
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 22px 58px rgba(15, 23, 42, 0.08);
+      padding: clamp(20px, 4vw, 46px);
+      margin-top: 18px;
+    }
+
+    .content h2 {
+      color: var(--ink);
+      font-size: 28px;
+      margin-top: 30px;
+      margin-bottom: 12px;
+    }
+
+    .content h3 {
+      color: var(--ink);
+      font-size: 20px;
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      line-height: 1.75;
+      margin-top: 12px;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .content ul {
+      margin-top: 12px;
+      padding-left: 18px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .callout {
+      background: linear-gradient(135deg, rgba(31, 111, 255, 0.08), rgba(0, 169, 157, 0.08), rgba(255, 106, 0, 0.06));
+      border: 1px solid rgba(31, 111, 255, 0.22);
+      border-radius: 14px;
+      margin-top: 18px;
+      padding: 16px 16px;
+    }
+
+    .callout strong {
+      color: var(--ink);
+    }
+
+    pre {
+      background: rgba(9, 17, 31, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      color: #e7eef7;
+      margin-top: 14px;
+      max-width: 100%;
+      overflow: auto;
+      padding: 16px 16px;
+      width: 100%;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+    }
+
+    pre code {
+      display: block;
+      max-width: 100%;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .diagram {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 14px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .diagram .row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 14px;
+      align-items: stretch;
+    }
+
+    .diagram .box {
+      border: 1px solid #dbe7f4;
+      border-radius: 12px;
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(247, 251, 255, 0.98), rgba(255, 248, 239, 0.6));
+      min-height: 90px;
+    }
+
+    .diagram .box .k {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .diagram .box .v {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .footer-cta {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-button {
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      border: none;
+      border-radius: 999px;
+      color: #ffffff;
+      display: inline-flex;
+      font-weight: 900;
+      padding: 12px 16px;
+      text-decoration: none;
+      box-shadow: 0 16px 40px rgba(255, 106, 0, 0.28);
+    }
+
+    .cta-button.secondary {
+      background: rgba(31, 111, 255, 0.12);
+      border: 1px solid rgba(31, 111, 255, 0.26);
+      color: var(--blue);
+      box-shadow: none;
+    }
+
+    @media (max-width: 720px) {
+      .diagram .row {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        border-radius: 14px;
+      }
+    }
+
+    @media (max-width: 1060px) {
+      .shell {
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+      .side.right {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .shell {
+        grid-template-columns: 1fr;
+        padding: 14px 14px 60px;
+      }
+      .side.left {
+        position: relative;
+        top: 0;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+  <div class="shell">
+    <aside class="side left">
+      <div class="side-card">
+        <div class="side-title">In This Article</div>
+        <ul class="nav-list" id="leftNav"></ul>
+      </div>
+    </aside>
+
+    <div class="main-col">
+      <header class="hero">
+        <div class="hero-inner">
+          <a class="back-link" href="../index.html#blogs">← Back to jaytiwari.org</a>
+          <div class="eyebrow">Interview prep</div>
+          <h1>How to excel in Google's Code Comprehension interview</h1>
+          <p class="dek">
+            Some interviews test how fast you can produce code from a blank page. This one tests something closer to real work:
+            can you read a codebase you’ve never seen, reason under ambiguity, use AI as a tool (not a crutch), and ship a fix you can defend.
+          </p>
+          <div class="meta-row">
+            <span class="meta-pill">8 min read</span>
+            <span class="meta-pill">AI-assisted debugging</span>
+            <span class="meta-pill">Validation mindset</span>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <article class="content" id="articleRoot">
+      <p>
+        A lot of candidates hear “code comprehension” and think: “Okay, I need to read code faster.”
+        That’s part of it, but it’s not the point.
+      </p>
+      <p>
+        Google is rolling this round out sooner than most people expect, with the intent to replace parts of the traditional
+        “write-from-scratch” coding round for many roles. The signal they’re after is simple: can you do real engineering work
+        with AI in the loop.
+      </p>
+      <p>
+        The point is engineering judgment in the AI era. Your interviewer wants to see whether you can
+        use an AI assistant effectively, validate output, and debug like someone who has actually owned production systems.
+      </p>
+
+      <div class="callout">
+        <p>
+          <strong>Mindset shift:</strong> You are not being graded on whether you know this codebase.
+          You are being graded on whether you can create clarity from it.
+        </p>
+      </div>
+
+      <h2>What This Round Usually Looks Like</h2>
+      <p>
+        In a typical setup, you get a small (but non-trivial) codebase: a few modules, some tests, and a bug report or failing behavior.
+        Your job is to:
+      </p>
+      <ul>
+        <li>read the code and explain what it’s trying to do</li>
+        <li>locate the bug or performance issue</li>
+        <li>propose a fix and implement it</li>
+        <li>use an AI assistant along the way</li>
+        <li>validate your changes with tests, reasoning, and edge cases</li>
+      </ul>
+
+      <h2>What You’re Actually Being Evaluated On</h2>
+      <div class="diagram" role="img" aria-label="Three skills for code comprehension interviews">
+        <div class="row">
+          <div class="box">
+            <div class="k">AI fluency</div>
+            <div class="v">Can you ask sharp questions, not vague ones?</div>
+          </div>
+          <div class="box">
+            <div class="k">Validation</div>
+            <div class="v">Can you verify output instead of trusting it?</div>
+          </div>
+          <div class="box">
+            <div class="k">Debugging</div>
+            <div class="v">Can you isolate root cause under uncertainty?</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>1) AI fluency (your prompts are part of the signal)</h3>
+      <p>
+        “Fix this” is not a useful prompt. It’s like telling a teammate “it’s broken” and walking away.
+        What works is: scope + context + a specific question.
+      </p>
+      <pre><code>// Bad
+Why is this failing?
+
+// Better
+Here are the two functions involved: parseConfig() and buildClient().
+The bug report says: "timeouts after a config reload."
+Can you spot any unsafe shared state or caching that survives reload?</code></pre>
+
+      <h3>2) Validation (the most underrated skill)</h3>
+      <p>
+        AI suggestions can be confidently wrong. In this interview, copy/paste behavior is a red flag.
+        Strong candidates always do at least one of:
+      </p>
+      <ul>
+        <li>prove the hypothesis by tracing the execution path</li>
+        <li>add or adjust a test that fails before and passes after</li>
+        <li>check invariants and edge cases (nulls, empty inputs, concurrency, retries)</li>
+      </ul>
+
+      <h3>3) Debugging (reduce the search space)</h3>
+      <p>
+        Debugging is not “stare at the code until it confesses.” Debugging is a process:
+      </p>
+      <ul>
+        <li>reproduce</li>
+        <li>isolate</li>
+        <li>form a hypothesis</li>
+        <li>test the hypothesis</li>
+        <li>fix the root cause</li>
+        <li>validate and regress</li>
+      </ul>
+
+      <h2>An Example (Log Processor Debugging Under AI)</h2>
+      <p>
+        Let’s use a realistic “read unfamiliar code and make it production-safe” task: a log processor that batches work and uses a thread pool.
+      </p>
+      <p>
+        Symptom: it works on small files, but under load you see missing logs, inconsistent error counts, and sometimes the program never finishes.
+      </p>
+
+      <pre><code>import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.time.Instant;
+
+public class LogProcessor {
+
+    private final String inputPath;
+    private final String outputPath;
+    private final Map&lt;String, Integer&gt; errorCounts;
+    private final List&lt;String&gt; processedLogs;
+    private final ExecutorService executor;
+    private final int batchSize;
+
+    public LogProcessor(String inputPath, String outputPath, int batchSize) {
+        this.inputPath = inputPath;
+        this.outputPath = outputPath;
+        this.errorCounts = new HashMap&lt;&gt;();
+        this.processedLogs = new ArrayList&lt;&gt;();
+        this.executor = Executors.newFixedThreadPool(4);
+        this.batchSize = batchSize;
+    }
+
+    public void processLogs() throws IOException {
+        BufferedReader reader = new BufferedReader(
+            new FileReader(inputPath)
+        );
+
+        String line;
+        List&lt;String&gt; batch = new ArrayList&lt;&gt;();
+
+        while ((line = reader.readLine()) != null) {
+            batch.add(line);
+            if (batch.size() &gt;= batchSize) {
+                List&lt;String&gt; currentBatch = batch;
+                executor.submit(() -&gt; processBatch(currentBatch));
+                batch = new ArrayList&lt;&gt;();
+            }
+        }
+
+        if (!batch.isEmpty()) {
+            executor.submit(() -&gt; processBatch(batch));
+        }
+    }
+
+    private void processBatch(List&lt;String&gt; batch) {
+        for (String line : batch) {
+            if (line == null || line.isEmpty()) {
+                continue;
+            }
+
+            String[] parts = line.split(\"\\\\|\");
+            String timestamp = parts[0];
+            String level     = parts[1];
+            String message   = parts[2];
+
+            if (level.equals(\"ERROR\")) {
+                errorCounts.merge(message, 1, Integer::sum);
+            }
+
+            String processed = timestamp + \" [\" + level + \"] \" + message;
+            processedLogs.add(processed);
+        }
+    }
+
+    public void writeResults() throws IOException {
+        BufferedWriter writer = new BufferedWriter(
+            new FileWriter(outputPath)
+        );
+
+        for (String log : processedLogs) {
+            writer.write(log);
+            writer.newLine();
+        }
+
+        writer.flush();
+    }
+
+    public void writeErrorSummary() throws IOException {
+        BufferedWriter writer = new BufferedWriter(
+            new FileWriter(outputPath, true)
+        );
+
+        writer.write(\"=== ERROR SUMMARY ===\");
+        writer.newLine();
+
+        errorCounts.entrySet()
+            .stream()
+            .sorted((a, b) -&gt; b.getValue() - a.getValue())
+            .forEach(e -&gt; {
+                try {
+                    writer.write(e.getKey() + \": \" + e.getValue());
+                    writer.newLine();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+        writer.flush();
+    }
+
+    public int getTotalErrors() {
+        return errorCounts.values()
+            .stream()
+            .mapToInt(Integer::intValue)
+            .sum();
+    }
+
+    public List&lt;String&gt; getProcessedLogs() {
+        return processedLogs;
+    }
+
+    public Map&lt;String, Integer&gt; getErrorCounts() {
+        return errorCounts;
+    }
+
+    public void shutdown() {
+        executor.shutdown();
+    }
+}</code></pre>
+
+      <p>
+        A weak approach is to ask AI: “why timeouts?” and then accept whatever comes back.
+        A strong approach is to look for what can persist across reloads.
+      </p>
+      <div class="callout">
+        <p>
+          <strong>Observation:</strong> this code mixes shared mutable state + concurrency without coordination.
+          That’s the kind of bug that looks “fine” in a quick skim and then fails under real load.
+        </p>
+      </div>
+
+      <h3>A strong, scoped prompt</h3>
+      <pre><code>We submit batches to an ExecutorService, but processBatch mutates errorCounts (HashMap) and processedLogs (ArrayList).
+Under load we see missing logs and inconsistent counts.
+Can you list the concurrency + resource-lifecycle bugs here, and propose the smallest safe fix?</code></pre>
+
+      <h3>A clean fix (thread-safety + lifecycle + validation)</h3>
+      <p>
+        In an interview, don’t jump to a framework rewrite. Fix the correctness issues first, then tighten performance.
+        The simplest safe path is:
+      </p>
+      <ul>
+        <li>Make shared collections thread-safe (or avoid sharing them across threads)</li>
+        <li>Close the reader (or use try-with-resources)</li>
+        <li>Wait for tasks to finish before writing results</li>
+        <li>Handle malformed log lines safely</li>
+      </ul>
+
+      <pre><code>// Small, safe changes (sketch)
+private final Map&lt;String, Integer&gt; errorCounts = new ConcurrentHashMap&lt;&gt;();
+private final List&lt;String&gt; processedLogs = Collections.synchronizedList(new ArrayList&lt;&gt;());
+
+public void processLogs() throws IOException {
+  try (BufferedReader reader = Files.newBufferedReader(Paths.get(inputPath))) {
+    // ...build batches...
+  }
+  executor.shutdown();
+  executor.awaitTermination(30, TimeUnit.SECONDS);
+}
+
+private void processBatch(List&lt;String&gt; batch) {
+  for (String line : batch) {
+    if (line == null || line.isEmpty()) continue;
+    String[] parts = line.split(\"\\\\|\", 3);
+    if (parts.length &lt; 3) continue;
+    String level = parts[1];
+    String message = parts[2];
+    if (\"ERROR\".equals(level)) {
+      errorCounts.merge(message, 1, Integer::sum);
+    }
+    processedLogs.add(parts[0] + \" [\" + level + \"] \" + message);
+  }
+}</code></pre>
+
+      <p>
+        Then you validate: add a test that reloads config and asserts the new timeout is applied.
+        In interviews, “I’d add a test” is weaker than actually doing it.
+      </p>
+
+      <h2>My Framework: Read, Reduce, Repair, Regress</h2>
+      <h3>Read (build a mental model)</h3>
+      <ul>
+        <li>What’s the input/output contract of each key function?</li>
+        <li>What state is global or shared?</li>
+        <li>Where are the boundaries: IO, network, DB, cache, threading?</li>
+      </ul>
+
+      <h3>Reduce (shrink the problem)</h3>
+      <ul>
+        <li>Find the smallest reproduction path</li>
+        <li>Log the one or two variables that prove your hypothesis</li>
+        <li>Use AI to navigate, but you choose the next cut</li>
+      </ul>
+
+      <h3>Repair (fix the root cause)</h3>
+      <ul>
+        <li>Prefer small, reversible changes</li>
+        <li>Call out trade-offs (cache invalidation vs. cost, correctness vs. complexity)</li>
+        <li>Keep the fix readable; interviews reward clarity</li>
+      </ul>
+
+      <h3>Regress (prove it stays fixed)</h3>
+      <ul>
+        <li>Add or tighten tests</li>
+        <li>Consider edge cases and failure modes</li>
+        <li>Run the minimal test suite and explain why it’s sufficient</li>
+      </ul>
+
+      <h2>Common Failure Modes I See In Mocks</h2>
+      <ul>
+        <li>jumping to a big refactor when a small fix is enough</li>
+        <li>asking AI for “the answer” instead of using it to explore a hypothesis</li>
+        <li>not validating assumptions (inputs, nullability, concurrency, retries)</li>
+        <li>no structure: ideas are correct but the interview becomes noisy</li>
+        <li>not narrating trade-offs, leaving the interviewer guessing</li>
+      </ul>
+
+      <h2>Final Thoughts</h2>
+      <p>
+        The best candidates don’t look like compilers. They look like senior engineers: calm, structured, and intentional.
+        They use AI like a sharp tool, not like autopilot.
+      </p>
+      <p>
+        If you want to prepare for this round, don’t practice more LeetCode.
+        Practice reading unfamiliar code, writing tight prompts, and proving fixes with tests.
+      </p>
+
+      <div class="footer-cta">
+        <div>
+          <p style="margin-top: 0; color: var(--muted); font-weight: 800;">
+            Want a mock interview in this format?
+          </p>
+          <p style="margin-top: 6px; color: var(--muted);">
+            Book a session on Topmate while I build a better platform for it.
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a class="cta-button" href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book on Topmate</a>
+          <a class="cta-button secondary" href="https://www.linkedin.com/in/jayptiwari/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
+        </div>
+      </div>
+        </article>
+      </main>
+    </div>
+
+    <aside class="side right">
+      <div class="side-card">
+        <div class="side-title">On This Page</div>
+        <ul class="toc-list" id="rightToc"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.getElementById("articleRoot");
+      const leftNav = document.getElementById("leftNav");
+      const rightToc = document.getElementById("rightToc");
+      const progress = document.getElementById("progressBar");
+
+      if (!root || !leftNav || !rightToc || !progress) {
+        return;
+      }
+
+      const headings = Array.from(root.querySelectorAll("h2, h3"));
+      const h2s = headings.filter((h) => h.tagName === "H2");
+
+      const slugify = (text) =>
+        text
+          .toLowerCase()
+          .replace(/[^a-z0-9\\s-]/g, "")
+          .trim()
+          .replace(/\\s+/g, "-")
+          .slice(0, 64);
+
+      const ensureId = (h) => {
+        if (h.id) return h.id;
+        let base = slugify(h.textContent || "section");
+        if (!base) base = "section";
+        let candidate = base;
+        let i = 2;
+        while (document.getElementById(candidate)) {
+          candidate = base + "-" + i;
+          i += 1;
+        }
+        h.id = candidate;
+        return candidate;
+      };
+
+      const makeItem = (target, label, depth) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "#" + target;
+        a.textContent = label;
+        if (depth) a.dataset.depth = String(depth);
+        li.appendChild(a);
+        return li;
+      };
+
+      h2s.forEach((h2) => {
+        const id = ensureId(h2);
+        leftNav.appendChild(makeItem(id, h2.textContent.trim(), 2));
+      });
+
+      headings.forEach((h) => {
+        const id = ensureId(h);
+        const depth = h.tagName === "H2" ? 2 : 3;
+        rightToc.appendChild(makeItem(id, h.textContent.trim(), depth));
+      });
+
+      const links = Array.from(document.querySelectorAll(".nav-list a, .toc-list a"));
+      const setActive = (id) => {
+        links.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => (a.target.tagName === "H2" ? -1 : 1) - (b.target.tagName === "H2" ? -1 : 1));
+          if (visible.length > 0) {
+            setActive(visible[0].target.id);
+          }
+        },
+        { rootMargin: "-20% 0px -70% 0px", threshold: [0, 1] }
+      );
+
+      headings.forEach((h) => observer.observe(h));
+
+      const updateProgress = () => {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+        const height = doc.scrollHeight - doc.clientHeight;
+        const ratio = height > 0 ? Math.min(1, Math.max(0, scrollTop / height)) : 0;
+        progress.style.transform = "scaleX(" + ratio.toFixed(4) + ")";
+      };
+
+      updateProgress();
+      window.addEventListener("scroll", updateProgress, { passive: true });
+    })();
+  </script>
+</body>
+</html>

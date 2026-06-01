@@ -5,6 +5,7 @@
   <title>How to Think in System Design Interviews | Jay Tiwari</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="System design interviews are not memory tests. Jay Tiwari explains how to reason from constraints, communicate trade-offs, and show engineering judgment." />
+  <link rel="stylesheet" href="./blog-template.css" />
   <style>
     :root {
       --accent: #ff6a00;
@@ -569,26 +570,36 @@
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <a class="back-link" href="../index.html#blogs">Back to blogs</a>
-      <p class="eyebrow">System Design Interviews</p>
-      <h1>How to Think in System Design Interviews</h1>
-      <p class="dek">
-        Most candidates prepare for system design interviews by memorizing architectures.
-        The strongest candidates learn how to reason from constraints.
-      </p>
-      <div class="meta-row">
-        <span class="meta-pill">By Jay Tiwari</span>
-        <span class="meta-pill">System design</span>
-        <span class="meta-pill">8 min read</span>
+  <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+  <div class="shell">
+    <aside class="side left">
+      <div class="side-card">
+        <div class="side-title">In This Article</div>
+        <ul class="nav-list" id="leftNav"></ul>
       </div>
-    </div>
-  </header>
+    </aside>
 
-  <main>
-    <article class="article-shell">
-      <div class="article-content">
+    <div class="main-col">
+      <header class="hero">
+        <div class="hero-inner">
+          <a class="back-link" href="../index.html#blogs">Back to blogs</a>
+          <p class="eyebrow">System Design Interviews</p>
+          <h1>How to Think in System Design Interviews</h1>
+          <p class="dek">
+            Most candidates prepare for system design interviews by memorizing architectures.
+            The strongest candidates learn how to reason from constraints.
+          </p>
+          <div class="meta-row">
+            <span class="meta-pill">By Jay Tiwari</span>
+            <span class="meta-pill">System design</span>
+            <span class="meta-pill">8 min read</span>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <article class="article-shell">
+          <div class="article-content" id="articleRoot">
         <p class="intro">
           Most candidates prepare for system design interviews the wrong way. They memorize architectures.
           They study how Twitter works, how Uber scales, or how Netflix streams video. They collect diagrams,
@@ -1026,24 +1037,34 @@
           <p>Because ultimately, system design is not about architecture diagrams.</p>
           <p><strong>It is about judgment.</strong></p>
         </div>
-      </div>
+          </div>
 
-      <div class="cta">
+          <div class="cta">
         <p>
           <strong>Want to practice this live?</strong>
           Book a 1:1 system design mock interview or mentoring session with Jay.
         </p>
         <a href="https://topmate.io/jay_tiwari" target="_blank" rel="noopener noreferrer">Book a session</a>
-      </div>
-    </article>
-  </main>
+          </div>
+        </article>
+      </main>
 
-  <footer>
-    © <span id="year"></span> Jay Tiwari · System design, engineering leadership, and career growth
-  </footer>
+      <footer>
+        © <span id="year"></span> Jay Tiwari · System design, engineering leadership, and career growth
+      </footer>
+    </div>
+
+    <aside class="side right">
+      <div class="side-card">
+        <div class="side-title">On This Page</div>
+        <ul class="toc-list" id="rightToc"></ul>
+      </div>
+    </aside>
+  </div>
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+  <script src="./blog-template.js"></script>
 </body>
 </html>
