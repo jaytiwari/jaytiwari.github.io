@@ -542,6 +542,72 @@
     display: block;
   }
 
+  .blog-reader {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .blog-reader-header {
+    align-items: center;
+    border-bottom: 1px solid rgba(219, 231, 244, 0.9);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    padding: 12px 14px;
+  }
+
+  .blog-reader-title {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .blog-reader-meta {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  .blog-reader-actions {
+    display: inline-flex;
+    gap: 10px;
+  }
+
+  .blog-open-link {
+    background: rgba(31, 111, 255, 0.10);
+    border: 1px solid rgba(31, 111, 255, 0.22);
+    border-radius: 999px;
+    color: var(--blue);
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 900;
+    padding: 10px 12px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .blog-open-link:hover {
+    background: rgba(31, 111, 255, 0.14);
+  }
+
+  .blog-iframe {
+    border: 0;
+    display: block;
+    height: min(74vh, 860px);
+    width: 100%;
+  }
+
+  @media (max-width: 820px) {
+    .blog-iframe {
+      height: min(70vh, 760px);
+    }
+  }
+
   @media (max-width: 820px) {
     .blog-shell {
       grid-template-columns: 1fr;
@@ -1188,6 +1254,19 @@
           </aside>
 
           <div class="blog-detail" data-blog-detail>
+            <div class="blog-reader" data-blog-reader>
+              <div class="blog-reader-header">
+                <div>
+                  <div class="blog-reader-title" data-blog-reader-title>Blog</div>
+                  <div class="blog-reader-meta" data-blog-reader-meta></div>
+                </div>
+                <div class="blog-reader-actions">
+                  <a class="blog-open-link" data-blog-open target="_blank" rel="noopener noreferrer" href="blogs/how-to-think-in-system-design-interviews.html">Open</a>
+                </div>
+              </div>
+              <iframe class="blog-iframe" data-blog-iframe title="Blog article"></iframe>
+            </div>
+
             <article class="card blog-entry" data-blog-entry data-title="How to think in system design interviews" data-meta="System design • 8 min read" data-href="blogs/how-to-think-in-system-design-interviews.html">
               <a class="card-link" href="blogs/how-to-think-in-system-design-interviews.html">
                 <div class="card-title">How to think in system design interviews</div>
@@ -1586,14 +1665,33 @@
       }
 
       const nav = shell.querySelector("[data-blog-nav]");
+      const reader = shell.querySelector("[data-blog-reader]");
+      const readerTitle = shell.querySelector("[data-blog-reader-title]");
+      const readerMeta = shell.querySelector("[data-blog-reader-meta]");
+      const readerOpen = shell.querySelector("[data-blog-open]");
+      const iframe = shell.querySelector("[data-blog-iframe]");
       const entries = Array.from(shell.querySelectorAll("[data-blog-entry]"));
       if (!nav || entries.length === 0) {
         return;
       }
 
       const setActive = (idx) => {
-        entries.forEach((entry, i) => entry.classList.toggle("is-active", i === idx));
+        entries.forEach((entry) => entry.classList.remove("is-active"));
         Array.from(nav.querySelectorAll("button")).forEach((btn, i) => btn.classList.toggle("is-active", i === idx));
+
+        const entry = entries[idx];
+        if (!entry) {
+          return;
+        }
+
+        const title = entry.dataset.title || entry.querySelector(".card-title")?.textContent?.trim() || "Blog";
+        const meta = entry.dataset.meta || entry.querySelector(".card-meta")?.textContent?.trim() || "";
+        const href = entry.dataset.href || entry.querySelector("a")?.getAttribute("href") || "";
+
+        if (readerTitle) readerTitle.textContent = title;
+        if (readerMeta) readerMeta.textContent = meta;
+        if (readerOpen && href) readerOpen.setAttribute("href", href);
+        if (iframe && href) iframe.setAttribute("src", href);
       };
 
       entries.forEach((entry, idx) => {
