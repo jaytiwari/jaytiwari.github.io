@@ -1,10 +1,14 @@
 (function () {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("embed") === "1") {
+    document.body.classList.add("embed");
+  }
+
   const root = document.getElementById("articleRoot");
   const leftNav = document.getElementById("leftNav");
-  const rightToc = document.getElementById("rightToc");
   const progress = document.getElementById("progressBar");
 
-  if (!root || !leftNav || !rightToc || !progress) {
+  if (!root || !leftNav || !progress) {
     return;
   }
 
@@ -48,13 +52,7 @@
     leftNav.appendChild(makeItem(id, h2.textContent.trim(), 2));
   });
 
-  headings.forEach((h) => {
-    const id = ensureId(h);
-    const depth = h.tagName === "H2" ? 2 : 3;
-    rightToc.appendChild(makeItem(id, h.textContent.trim(), depth));
-  });
-
-  const links = Array.from(document.querySelectorAll(".nav-list a, .toc-list a"));
+  const links = Array.from(document.querySelectorAll(".nav-list a"));
   const setActive = (id) => {
     links.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
   };
@@ -82,4 +80,3 @@
   updateProgress();
   window.addEventListener("scroll", updateProgress, { passive: true });
 })();
-

@@ -499,6 +499,23 @@
     gap: 8px;
   }
 
+  .blog-nav-group {
+    margin-top: 10px;
+  }
+
+  .blog-nav-group:first-child {
+    margin-top: 0;
+  }
+
+  .blog-nav-group-title {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    margin: 10px 6px 6px;
+    text-transform: uppercase;
+  }
+
   .blog-nav-item {
     appearance: none;
     background: transparent;
@@ -1267,7 +1284,7 @@
               <iframe class="blog-iframe" data-blog-iframe title="Blog article"></iframe>
             </div>
 
-            <article class="card blog-entry" data-blog-entry data-title="How to think in system design interviews" data-meta="System design • 8 min read" data-href="blogs/how-to-think-in-system-design-interviews.html">
+            <article class="card blog-entry" data-blog-entry data-title="How to think in system design interviews" data-meta="System design • 8 min read" data-href="blogs/how-to-think-in-system-design-interviews.html" data-category="System Design">
               <a class="card-link" href="blogs/how-to-think-in-system-design-interviews.html">
                 <div class="card-title">How to think in system design interviews</div>
                 <div class="card-meta">System design • 8 min read</div>
@@ -1278,7 +1295,7 @@
               </a>
             </article>
 
-            <article class="card blog-entry" data-blog-entry data-title="Turning your resume into a signal, not noise" data-meta="Career growth • 7 min read" data-href="blogs/turning-your-resume-into-a-signal-not-noise.html">
+            <article class="card blog-entry" data-blog-entry data-title="Turning your resume into a signal, not noise" data-meta="Career growth • 7 min read" data-href="blogs/turning-your-resume-into-a-signal-not-noise.html" data-category="Career Growth">
               <a class="card-link" href="blogs/turning-your-resume-into-a-signal-not-noise.html">
                 <div class="card-title">Turning your resume into a signal, not noise</div>
                 <div class="card-meta">Career growth • 7 min read</div>
@@ -1289,7 +1306,7 @@
               </a>
             </article>
 
-            <article class="card blog-entry" data-blog-entry data-title="How to scale a service for spiky traffic" data-meta="System design • 8 min read" data-href="blogs/how-to-scale-a-service-for-spiky-traffic.html">
+            <article class="card blog-entry" data-blog-entry data-title="How to scale a service for spiky traffic" data-meta="System design • 8 min read" data-href="blogs/how-to-scale-a-service-for-spiky-traffic.html" data-category="System Design">
               <a class="card-link" href="blogs/how-to-scale-a-service-for-spiky-traffic.html">
                 <div class="card-title">How to scale a service for spiky traffic</div>
                 <div class="card-meta">System design • 8 min read</div>
@@ -1300,7 +1317,7 @@
               </a>
             </article>
 
-            <article class="card blog-entry" data-blog-entry data-title="Fixing the most common FAANG interview mistakes" data-meta="Interview prep • 7 min read" data-href="blogs/fixing-the-most-common-faang-interview-mistakes.html">
+            <article class="card blog-entry" data-blog-entry data-title="Fixing the most common FAANG interview mistakes" data-meta="Interview prep • 7 min read" data-href="blogs/fixing-the-most-common-faang-interview-mistakes.html" data-category="Interview Preparation">
               <a class="card-link" href="blogs/fixing-the-most-common-faang-interview-mistakes.html">
                 <div class="card-title">Fixing the most common FAANG interview mistakes</div>
                 <div class="card-meta">Interview prep • 7 min read</div>
@@ -1311,7 +1328,7 @@
               </a>
             </article>
 
-            <article class="card blog-entry" data-blog-entry data-title="How to excel in Google's Code Comprehension interview" data-meta="Interview prep • 8 min read" data-href="blogs/how-to-excel-google-code-comprehension.html">
+            <article class="card blog-entry" data-blog-entry data-title="How to excel in Google's Code Comprehension interview" data-meta="Interview prep • 8 min read" data-href="blogs/how-to-excel-google-code-comprehension.html" data-category="Interview Preparation">
               <a class="card-link" href="blogs/how-to-excel-google-code-comprehension.html">
                 <div class="card-title">How to excel in Google's Code Comprehension interview</div>
                 <div class="card-meta">Interview prep • 8 min read</div>
@@ -1691,22 +1708,54 @@
         if (readerTitle) readerTitle.textContent = title;
         if (readerMeta) readerMeta.textContent = meta;
         if (readerOpen && href) readerOpen.setAttribute("href", href);
-        if (iframe && href) iframe.setAttribute("src", href);
+        if (iframe && href) {
+          const sep = href.includes("?") ? "&" : "?";
+          iframe.setAttribute("src", `${href}${sep}embed=1`);
+        }
       };
 
+      const groups = ["Career Growth", "System Design", "Interview Preparation"];
+      const grouped = new Map(groups.map((g) => [g, []]));
       entries.forEach((entry, idx) => {
-        const title = entry.dataset.title || entry.querySelector(".card-title")?.textContent?.trim() || `Post ${idx + 1}`;
-        const meta = entry.dataset.meta || entry.querySelector(".card-meta")?.textContent?.trim() || "";
+        const category = entry.dataset.category || "Interview Preparation";
+        if (!grouped.has(category)) {
+          grouped.set(category, []);
+        }
+        grouped.get(category).push({ entry, idx });
+      });
 
-        const li = document.createElement("li");
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "blog-nav-item";
-        btn.innerHTML = meta ? `${title}<span>${meta}</span>` : title;
-        btn.addEventListener("click", () => setActive(idx));
+      groups.forEach((group) => {
+        const items = grouped.get(group) || [];
+        if (items.length === 0) {
+          return;
+        }
 
-        li.appendChild(btn);
-        nav.appendChild(li);
+        const groupLi = document.createElement("li");
+        groupLi.className = "blog-nav-group";
+        const groupTitle = document.createElement("div");
+        groupTitle.className = "blog-nav-group-title";
+        groupTitle.textContent = group;
+        groupLi.appendChild(groupTitle);
+
+        const inner = document.createElement("ul");
+        inner.className = "blog-nav-list";
+        items.forEach(({ entry, idx }) => {
+          const title = entry.dataset.title || entry.querySelector(".card-title")?.textContent?.trim() || `Post ${idx + 1}`;
+          const meta = entry.dataset.meta || entry.querySelector(".card-meta")?.textContent?.trim() || "";
+
+          const li = document.createElement("li");
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "blog-nav-item";
+          btn.innerHTML = meta ? `${title}<span>${meta}</span>` : title;
+          btn.addEventListener("click", () => setActive(idx));
+
+          li.appendChild(btn);
+          inner.appendChild(li);
+        });
+
+        groupLi.appendChild(inner);
+        nav.appendChild(groupLi);
       });
 
       setActive(0);

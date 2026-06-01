@@ -91,8 +91,7 @@
       margin-bottom: 10px;
     }
 
-    .nav-list,
-    .toc-list {
+    .nav-list {
       list-style: none;
       padding: 0;
       margin: 0;
@@ -100,8 +99,7 @@
       gap: 6px;
     }
 
-    .nav-list a,
-    .toc-list a {
+    .nav-list a {
       border-radius: 10px;
       color: var(--text);
       display: block;
@@ -112,26 +110,12 @@
       transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .toc-list a {
-      font-weight: 700;
-      font-size: 13px;
-      padding: 8px 10px;
-      color: var(--muted);
-    }
-
-    .toc-list a[data-depth="3"] {
-      padding-left: 20px;
-      font-weight: 700;
-    }
-
-    .nav-list a:hover,
-    .toc-list a:hover {
+    .nav-list a:hover {
       background: rgba(31, 111, 255, 0.10);
       color: var(--ink);
     }
 
-    .nav-list a.is-active,
-    .toc-list a.is-active {
+    .nav-list a.is-active {
       background: linear-gradient(90deg, rgba(255, 106, 0, 0.16), rgba(31, 111, 255, 0.10));
       color: var(--ink);
       border: 1px solid rgba(255, 106, 0, 0.24);
@@ -411,6 +395,19 @@
         top: 0;
         max-height: none;
       }
+    }
+
+    body.embed .progress {
+      display: none;
+    }
+
+    body.embed .side {
+      display: none;
+    }
+
+    body.embed .shell {
+      grid-template-columns: 1fr;
+      padding: 12px 12px 40px;
     }
   </style>
 </head>
@@ -788,22 +785,21 @@ private void processBatch(List&lt;String&gt; batch) {
       </main>
     </div>
 
-    <aside class="side right">
-      <div class="side-card">
-        <div class="side-title">On This Page</div>
-        <ul class="toc-list" id="rightToc"></ul>
-      </div>
-    </aside>
+    <!-- Right-side TOC intentionally omitted -->
   </div>
 
   <script>
     (function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("embed") === "1") {
+        document.body.classList.add("embed");
+      }
+
       const root = document.getElementById("articleRoot");
       const leftNav = document.getElementById("leftNav");
-      const rightToc = document.getElementById("rightToc");
       const progress = document.getElementById("progressBar");
 
-      if (!root || !leftNav || !rightToc || !progress) {
+      if (!root || !leftNav || !progress) {
         return;
       }
 
@@ -846,14 +842,7 @@ private void processBatch(List&lt;String&gt; batch) {
         const id = ensureId(h2);
         leftNav.appendChild(makeItem(id, h2.textContent.trim(), 2));
       });
-
-      headings.forEach((h) => {
-        const id = ensureId(h);
-        const depth = h.tagName === "H2" ? 2 : 3;
-        rightToc.appendChild(makeItem(id, h.textContent.trim(), depth));
-      });
-
-      const links = Array.from(document.querySelectorAll(".nav-list a, .toc-list a"));
+      const links = Array.from(document.querySelectorAll(".nav-list a"));
       const setActive = (id) => {
         links.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
       };
